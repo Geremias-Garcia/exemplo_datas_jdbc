@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" spacing="20.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ifpr.pgua.eic.exemplodatas.controllers.ClinicaOpcoes">
+   <children>
+      <HBox alignment="CENTER" prefHeight="261.0" prefWidth="600.0" spacing="80.0">
+         <children>
+            <VBox prefHeight="162.0" prefWidth="178.0" spacing="20.0">
+               <children>
+                  <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#cadastrarPacientes" text="Cadastrar Paciente" />
+                  <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#cadastrarFuncionario" text="Cadastrar Funcionário" />
+                  <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#cadastrarMedico" text="Cadastrar Médico" />
+                  <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Cadastrar Enfermeiro" />
+               </children>
+            </VBox>
+            <VBox prefHeight="162.0" prefWidth="42.0" />
+            <VBox prefHeight="162.0" prefWidth="170.0" spacing="20.0">
+               <children>
+                  <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#listarPacientes" text="Listar Pacientes" />
+                  <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Listar Funcionários" />
+               </children>
+            </VBox>
+         </children>
+      </HBox>
+   </children>
+</VBox>

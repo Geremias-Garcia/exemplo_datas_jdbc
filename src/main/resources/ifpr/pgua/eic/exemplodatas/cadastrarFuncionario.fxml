@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+
+<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ifpr.pgua.eic.exemplodatas.controllers.CadastroFuncionario">
+  <columnConstraints>
+      <ColumnConstraints hgrow="SOMETIMES" maxWidth="192.79998779296875" minWidth="10.0" prefWidth="128.200048828125" />
+    <ColumnConstraints hgrow="SOMETIMES" maxWidth="469.99993896484375" minWidth="10.0" prefWidth="437.599951171875" />
+    <ColumnConstraints hgrow="SOMETIMES" maxWidth="144.40002441406244" minWidth="10.0" prefWidth="33.200061035156295" />
+  </columnConstraints>
+  <rowConstraints>
+    <RowConstraints maxHeight="128.60001220703126" minHeight="10.0" prefHeight="39.399984741210936" vgrow="SOMETIMES" />
+    <RowConstraints maxHeight="287.1999755859375" minHeight="10.0" prefHeight="232.20001525878902" vgrow="SOMETIMES" />
+    <RowConstraints maxHeight="130.60000610351562" minHeight="10.0" prefHeight="98.80003662109374" vgrow="SOMETIMES" />
+      <RowConstraints maxHeight="130.60000610351562" minHeight="10.0" prefHeight="31.59996337890624" vgrow="SOMETIMES" />
+  </rowConstraints>
+   <children>
+      <VBox prefHeight="287.0" prefWidth="401.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+         <children>
+            <TextField fx:id="tfNome" />
+            <TextField fx:id="tfCpf" />
+            <TextField fx:id="tfTelefone" />
+            <TextField fx:id="tfEmail" />
+            <TextField fx:id="tfMatricula" />
+            <TextField fx:id="tfSalario" />
+            <DatePicker fx:id="date" />
+            <ComboBox fx:id="cbGenero" prefWidth="150.0" />
+            <ComboBox fx:id="cbSetor" prefWidth="150.0" />
+         </children>
+      </VBox>
+      <HBox alignment="TOP_CENTER" prefHeight="97.0" prefWidth="406.0" spacing="40.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
+         <children>
+            <Button mnemonicParsing="false" onAction="#cadastrar" text="Cadastrar" />
+            <Button mnemonicParsing="false" onAction="#voltar" text="Voltar" />
+         </children>
+         <opaqueInsets>
+            <Insets />
+         </opaqueInsets>
+         <padding>
+            <Insets right="40.0" top="20.0" />
+         </padding>
+      </HBox>
+      <VBox alignment="CENTER_RIGHT" prefHeight="200.0" prefWidth="100.0" spacing="8.0" GridPane.rowIndex="1">
+         <children>
+            <Label text="NOME" />
+            <Label prefHeight="18.0" prefWidth="26.0" text="CPF" />
+            <Label text="TELEFONE" />
+            <Label text="EMAIL" />
+            <Label text="MATRICULA" />
+            <Label text="SALARIO" />
+            <Label text="DATA NASCIMENTO" />
+            <Label text="GENERO" />
+            <Label text="SETOR" />
+         </children>
+         <padding>
+            <Insets right="10.0" />
+         </padding>
+      </VBox>
+   </children>
+</GridPane>
