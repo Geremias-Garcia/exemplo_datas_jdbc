@@ -8,6 +8,7 @@ public class Principal {
 
     @FXML
     private void clinicaOpcoes(){
+        System.out.println("show");
         App.pushScreen("CLINICAOPCOES");
     }
 
