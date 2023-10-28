@@ -9,6 +9,7 @@ import java.sql.Statement;
 import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Random;
 
 import com.github.hugoperlin.results.Resultado;
 
@@ -26,54 +27,43 @@ public class JDBCExemploDAO implements ExemploDAO{
     }
 
     @Override
-    public Resultado criar(Exemplo exemplo) {
+    public Resultado criar() {
         
         try(Connection con=fabrica.getConnection()){
-            PreparedStatement pstm = con.prepareStatement("INSERT INTO exemplos(data) VALUES (?)",Statement.RETURN_GENERATED_KEYS);
+            char[] letters = new char[3];
+            int[] numbers = new int[4];
+            String[] carModels = {
+                "FUSCA", "CORSA", "KWID", "KOMBI", "FOCUS",
+                "FIESTA", "GOL", "MONZA", "PAMPA", "F1000"
+            };
 
+            Random random = new Random();
 
-            pstm.setDate(1, Date.valueOf(exemplo.getData()));
+            for (int j = 0; j < 100000; j++) {
+                for (int i = 0; i < 3; i++) {
+                    letters[i] = (char) ('A' + random.nextInt(26));
+                }
 
-            int ret = pstm.executeUpdate();
+                for (int i = 0; i < 4; i++) {
+                    numbers[i] = random.nextInt(10);
+                }
 
-            if(ret == 1){
-                int id = DBUtils.getLastId(pstm);
+                String sql = "INSERT INTO carro_modelo (placa, modelo) VALUES (?, ?)";
+                PreparedStatement statement = con.prepareStatement(sql);
+                statement.setString(1, new String(letters) + numbers[0] + numbers[1] + numbers[2] + numbers[3]);
+                statement.setString(2, carModels[numbers[0]]);
 
-                exemplo.setId(id);
-
-                return Resultado.sucesso("Data cadastrada", exemplo);
+                int rowsInserted = statement.executeUpdate();
+                if (rowsInserted > 0) {
+                    System.out.println("Registro inserido com sucesso.");
+                } else {
+                    System.out.println("Erro na inserção.");
+                }
             }
 
             return Resultado.erro("Vixe...");
 
             
-        }catch(SQLException e){
-            return Resultado.erro(e.getMessage());
-        }
-
-    
-    }
-
-    @Override
-    public Resultado listar() {
-        
-        try(Connection con=fabrica.getConnection()){
-            PreparedStatement pstm = con.prepareStatement("SELECT * FROM exemplos");
-
-            ResultSet rs = pstm.executeQuery();
-
-            ArrayList<Exemplo> lista = new ArrayList<>();
-            while(rs.next()){
-                int id = rs.getInt("id");
-                LocalDate date = rs.getDate("data").toLocalDate();
-
-                Exemplo exemplo = new Exemplo(id, date);
-                lista.add(exemplo);
-
-            }
-            
-            return Resultado.sucesso("Lista carregada", lista);
-  
         }catch(SQLException e){
             return Resultado.erro(e.getMessage());
         }

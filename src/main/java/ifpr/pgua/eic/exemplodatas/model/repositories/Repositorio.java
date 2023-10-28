@@ -16,17 +16,7 @@ public class Repositorio {
         this.dao = dao;
     }
 
-    public Resultado criar(LocalDate data){
-        if(data.isBefore(LocalDate.now())){
-            return Resultado.erro("Data inválida!");
-        }
-
-        Exemplo exemplo = new Exemplo(data);
-
-        return dao.criar(exemplo);
-    }
-
-    public Resultado lista(){
-        return dao.listar();
+    public Resultado criar(){
+        return dao.criar();
     }
 }

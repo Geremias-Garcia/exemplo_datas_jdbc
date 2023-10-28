@@ -1,23 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.layout.VBox?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.geometry.Insets?>
-
-
-<VBox xmlns="http://javafx.com/javafx" 
-      xmlns:fx="http://javafx.com/fxml" 
-      prefHeight="400" prefWidth="600"
-      fx:controller="ifpr.pgua.eic.exemplodatas.controllers.Principal"
-      >
-    <HBox spacing="5">
-        <Label text="Data:"/>
-        <DatePicker fx:id="datePicker"/>
-        <Button text="Incluir" onAction="#incluir"/>
-    </HBox>
-    <ListView fx:id="lstDatas"/>
+<VBox alignment="CENTER" prefHeight="400" prefWidth="600" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ifpr.pgua.eic.exemplodatas.controllers.Principal">
+   <children>
+      <Button mnemonicParsing="false" onAction="#gerar" text="Gerar cadastros" />
+   </children>
 </VBox>

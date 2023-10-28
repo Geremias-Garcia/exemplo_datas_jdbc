@@ -9,19 +9,10 @@ import com.github.hugoperlin.results.Resultado;
 
 import ifpr.pgua.eic.exemplodatas.model.repositories.Repositorio;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.ListView;
 import javafx.scene.control.Alert.AlertType;
 
-public class Principal implements Initializable {
-
-    @FXML
-    private DatePicker datePicker;
-
-    @FXML
-    private ListView<LocalDate> lstDatas;
+public class Principal {
 
     private Repositorio repositorio;
 
@@ -30,32 +21,21 @@ public class Principal implements Initializable {
     }
 
     @FXML
-    private void incluir() {
-        LocalDate data = datePicker.getValue();
+    private void gerar() {
+        System.out.println("ok");
+        Resultado resultado = repositorio.criar();
 
-        Resultado resultado = repositorio.criar(data);
+        String msg;
 
-        Alert alert = new Alert(AlertType.INFORMATION, resultado.getMsg());
+        Alert alert;
+        msg = resultado.getMsg();
+        if(resultado.foiErro()){
+            alert = new Alert(AlertType.ERROR,msg);
+        }else{
+            alert = new Alert(AlertType.INFORMATION,msg);  
+        }
+
         alert.showAndWait();
-
-        if(resultado.foiSucesso()){
-            atualizarLista();
-        }
-    }
-
-    private void atualizarLista() {
-        Resultado resultado = repositorio.lista();
-
-        if (resultado.foiSucesso()) {
-            List<LocalDate> lista = (List) resultado.comoSucesso().getObj();
-            lstDatas.getItems().clear();
-            lstDatas.getItems().addAll(lista);
-        }
-    }
-
-    @Override
-    public void initialize(URL arg0, ResourceBundle arg1) {
-        atualizarLista();
     }
 
 }

@@ -1,5 +1,6 @@
-CREATE TABLE IF NOT EXISTS exemplos (
+CREATE TABLE IF NOT EXISTS carro_modelo (
     id int NOT NULL AUTO_INCREMENT,
-    data date NOT NULL,
+    placa varchar(7) NOT NULL,
+    modelo varchar(45) NOT NULL,
     PRIMARY KEY (id)
 );
