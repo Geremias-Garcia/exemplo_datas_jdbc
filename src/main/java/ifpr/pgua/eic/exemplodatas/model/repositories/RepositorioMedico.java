@@ -34,5 +34,8 @@ public class RepositorioMedico {
         return dao.filtrarEspecialidade(especialidade);
     }
 
+    public Resultado<ArrayList<Medico>> filtrarEspecialidadeENome(String especialidade, String inicio) {
+        return dao.filtrarEspecialidadeENome(especialidade, inicio);
+    }
     
 }

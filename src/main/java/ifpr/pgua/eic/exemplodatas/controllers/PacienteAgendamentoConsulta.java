@@ -51,6 +51,19 @@ public class PacienteAgendamentoConsulta implements Initializable{
         cbEspecialidades.getItems().addAll("Todos", "Pediatra", "Cardiologista","Urologista","Ginecologista");
         cbEspecialidades.setValue("Todos");
 
+        listarTodos();
+
+        cbEspecialidades.valueProperty().addListener((observable, oldValue, newValue) -> {
+            if ("Todos".equals(newValue)) {
+                listarTodos();
+            } else {
+                String especialidade = newValue.toString();
+                atualizarListaMedicosFiltrados(especialidade);
+            }
+        });
+    }
+
+    private void listarTodos(){
         lstMedico.setCellFactory(new Callback<ListView<Medico>, ListCell<Medico>>() {
         @Override
         public ListCell<Medico> call(ListView<Medico> listView) {
@@ -78,28 +91,6 @@ public class PacienteAgendamentoConsulta implements Initializable{
             Collections.sort(lista, Comparator.comparing(Medico::getNome));
             lstMedico.getItems().addAll(lista);
         }
-
-        cbEspecialidades.valueProperty().addListener((observable, oldValue, newValue) -> {
-            if ("Todos".equals(newValue)) {
-                atualizarListaMedicos();
-            } else {
-                String especialidade = newValue.toString();
-                atualizarListaMedicosFiltrados(especialidade);
-            }
-        });
-    }
-
-    private void atualizarListaMedicos() {
-        Resultado resultado = repositorioMedico.listar();
-
-        if (resultado.foiErro()) {
-            Alert alert = new Alert(AlertType.ERROR, resultado.getMsg());
-            alert.showAndWait();
-        } else {
-            List<Medico> lista = (List<Medico>) resultado.comoSucesso().getObj();
-            Collections.sort(lista, Comparator.comparing(Medico::getNome));
-            medicoList.setAll(lista);
-        }
     }
 
     private void atualizarListaMedicosFiltrados(String especialidade) {
@@ -126,7 +117,33 @@ public class PacienteAgendamentoConsulta implements Initializable{
            atualizarTabela(resultado.comoSucesso().getObj());
         }
     }
+    /*
+    @FXML
+    private void filtrar(KeyEvent evt) {
+        String especialidade = cbEspecialidades.getValue().toString();
+        String filtro = tfFiltro.getText().trim();
+        if (filtro.isEmpty()) {
+            listarTodos();
+        } else {
+            filtrarMedicos(especialidade, filtro);
+        }
+    }
 
+
+    private void filtrarMedicos(String especialidade, String filtro) {
+        Resultado<ArrayList<Medico>> resultado;
+        
+        if ("Todos".equals(especialidade)) {
+            resultado = repositorioMedico.filtrarNome(filtro);
+        } else {
+            resultado = repositorioMedico.filtrarEspecialidadeENome(especialidade, filtro);
+        }
+        
+        if (resultado.foiSucesso()) {
+            atualizarTabela(resultado.comoSucesso().getObj());
+        }
+    }
+     */
     private void atualizarTabela(List<Medico> medico){
         lstMedico.getItems().clear();
         lstMedico.getItems().addAll(medico);

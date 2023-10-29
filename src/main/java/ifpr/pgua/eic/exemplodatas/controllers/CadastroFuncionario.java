@@ -71,10 +71,7 @@ public class CadastroFuncionario implements Initializable{
 
         System.out.println(pessoa);
     }
-
    
-    
-
     
     @FXML
     void voltar(ActionEvent event) {

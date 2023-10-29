@@ -24,6 +24,9 @@ public class JDBCMedicoDAO implements MedicoDAO {
 
     private static final String FILTROESPECIALIDADE = "SELECT * FROM medico WHERE especialidade LIKE ? || '%'";
 
+    private static final String FILTROESPECIALIDADENOME = "SELECT * FROM medico WHERE especialidade = ? AND nome LIKE ? || '%";
+
+
 
     private FabricaConexoes fabrica;
 
@@ -147,6 +150,44 @@ public class JDBCMedicoDAO implements MedicoDAO {
             PreparedStatement pstm = con.prepareStatement(FILTROESPECIALIDADE);
 
             pstm.setString(1, especialidade);
+
+            ResultSet rs = pstm.executeQuery();
+
+            ArrayList<Medico> lista = new ArrayList<>();
+            while(rs.next()){
+                int id = rs.getInt("id");
+                String nome = rs.getString("nome");
+                String cpf = rs.getString("cpf");
+                String telefone = rs.getString("telefone");
+                String email = rs.getString("email");
+
+                java.sql.Date sqlDate = rs.getDate("dataNascimento");
+                LocalDate dataNascimento = sqlDate.toLocalDate();
+
+                String genero = rs.getString("genero");
+                boolean isAtive = rs.getBoolean("isAtive");
+                double salario = rs.getDouble("salario");
+                String crm = rs.getString("crm");
+
+                Medico medico = new Medico(id, nome, cpf, telefone, email, dataNascimento, genero, isAtive,salario,especialidade,crm);
+
+                lista.add(medico);
+            }
+
+            return Resultado.sucesso("Contatos", lista);
+
+        } catch (SQLException e) {
+            return Resultado.erro(e.getMessage());
+        }
+    }
+    
+    @Override
+    public Resultado<ArrayList<Medico>> filtrarEspecialidadeENome(String especialidade, String inicio) {
+        try (Connection con = fabrica.getConnection()) {
+            PreparedStatement pstm = con.prepareStatement(FILTROESPECIALIDADENOME);
+
+            pstm.setString(1, especialidade);
+            pstm.setString(2, inicio);
 
             ResultSet rs = pstm.executeQuery();
 
