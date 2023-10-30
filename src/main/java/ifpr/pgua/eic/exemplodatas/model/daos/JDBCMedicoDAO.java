@@ -24,7 +24,8 @@ public class JDBCMedicoDAO implements MedicoDAO {
 
     private static final String FILTROESPECIALIDADE = "SELECT * FROM medico WHERE especialidade LIKE ? || '%'";
 
-    private static final String FILTROESPECIALIDADENOME = "SELECT * FROM medico WHERE especialidade = ? AND nome LIKE ? || '%";
+    private static final String FILTROESPECIALIDADENOME = "SELECT * FROM medico WHERE especialidade = ? AND nome LIKE ? || '%'";
+
 
 
 
@@ -185,10 +186,10 @@ public class JDBCMedicoDAO implements MedicoDAO {
     public Resultado<ArrayList<Medico>> filtrarEspecialidadeENome(String especialidade, String inicio) {
         try (Connection con = fabrica.getConnection()) {
             PreparedStatement pstm = con.prepareStatement(FILTROESPECIALIDADENOME);
-
-            pstm.setString(1, especialidade);
-            pstm.setString(2, inicio);
-
+    
+            pstm.setString(1, especialidade);  
+            pstm.setString(2, inicio);      
+    
             ResultSet rs = pstm.executeQuery();
 
             ArrayList<Medico> lista = new ArrayList<>();
@@ -218,6 +219,27 @@ public class JDBCMedicoDAO implements MedicoDAO {
             return Resultado.erro(e.getMessage());
         }
     }
+
+    /* 
+    public Resultado<ArrayList<Medico>> filtrarEspecialidadeENome(String especialidade, String inicio) {
+        try (Connection con = fabrica.getConnection()) {
+            PreparedStatement pstm = con.prepareStatement(FILTROESPECIALIDADENOME);
+    
+            pstm.setString(1, especialidade);  // Primeiro parâmetro: especialidade
+            pstm.setString(2, inicio);        // Segundo parâmetro: início do nome
+    
+            ResultSet rs = pstm.executeQuery();
+    
+            ArrayList<Medico> lista = new ArrayList<>();
+            while (rs.next()) {
+                // Resto do código...
+            }
+    
+            return Resultado.sucesso("Contatos", lista);
+        } catch (SQLException e) {
+            return Resultado.erro(e.getMessage());
+        }
+    }*/
     
     @Override
     public Resultado alterar(Medico medico) {

@@ -103,47 +103,27 @@ public class PacienteAgendamentoConsulta implements Initializable{
 
     @FXML
     private void filtrar(KeyEvent evt){
-        System.out.println(tfFiltro.getText());
-        if(!tfFiltro.getText().isBlank() || !tfFiltro.getText().isEmpty()){
+        String selecao = cbEspecialidades.getValue().toString();
+        if (selecao.equals("Todos") && (tfFiltro.getText().isBlank() || tfFiltro.getText().isEmpty()) ) {
+                listarTodos();
+        }else if(selecao.equals("Todos") && (!tfFiltro.getText().isBlank() || !tfFiltro.getText().isEmpty())){
             
             Resultado<ArrayList<Medico>> resultado = repositorioMedico.filtrarNome(tfFiltro.getText());
 
             if(resultado.foiSucesso()){
                 atualizarTabela(resultado.comoSucesso().getObj());
             }
-        }else{
-           Resultado<ArrayList<Medico>> resultado = repositorioMedico.listar();
+        }else if(!selecao.equals("Todos") && (tfFiltro.getText().isBlank() || tfFiltro.getText().isEmpty())){
+            atualizarListaMedicosFiltrados(selecao);
+        }else if(!selecao.equals("Todos") && (!tfFiltro.getText().isBlank() || !tfFiltro.getText().isEmpty())){
+            Resultado<ArrayList<Medico>> resultado = repositorioMedico.filtrarEspecialidadeENome(selecao,tfFiltro.getText());
 
-           atualizarTabela(resultado.comoSucesso().getObj());
+            if(resultado.foiSucesso()){
+                atualizarTabela(resultado.comoSucesso().getObj());
+            }
         }
     }
-    /*
-    @FXML
-    private void filtrar(KeyEvent evt) {
-        String especialidade = cbEspecialidades.getValue().toString();
-        String filtro = tfFiltro.getText().trim();
-        if (filtro.isEmpty()) {
-            listarTodos();
-        } else {
-            filtrarMedicos(especialidade, filtro);
-        }
-    }
-
-
-    private void filtrarMedicos(String especialidade, String filtro) {
-        Resultado<ArrayList<Medico>> resultado;
-        
-        if ("Todos".equals(especialidade)) {
-            resultado = repositorioMedico.filtrarNome(filtro);
-        } else {
-            resultado = repositorioMedico.filtrarEspecialidadeENome(especialidade, filtro);
-        }
-        
-        if (resultado.foiSucesso()) {
-            atualizarTabela(resultado.comoSucesso().getObj());
-        }
-    }
-     */
+    
     private void atualizarTabela(List<Medico> medico){
         lstMedico.getItems().clear();
         lstMedico.getItems().addAll(medico);
