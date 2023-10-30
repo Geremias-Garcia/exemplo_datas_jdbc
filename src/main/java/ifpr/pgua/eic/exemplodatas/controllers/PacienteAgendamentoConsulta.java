@@ -11,8 +11,6 @@ import com.github.hugoperlin.results.Resultado;
 
 import ifpr.pgua.eic.exemplodatas.model.entities.Medico;
 import ifpr.pgua.eic.exemplodatas.model.repositories.RepositorioMedico;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
@@ -37,17 +35,12 @@ public class PacienteAgendamentoConsulta implements Initializable{
 
     private RepositorioMedico repositorioMedico;
 
-    private ObservableList<Medico> medicoList;
-
     public PacienteAgendamentoConsulta(RepositorioMedico repositorioMedico){
         this.repositorioMedico = repositorioMedico;
     }
 
     @Override
     public void initialize(URL arg0, ResourceBundle arg1) {
-        medicoList = FXCollections.observableArrayList();
-        lstMedico.getItems().clear();
-
         cbEspecialidades.getItems().addAll("Todos", "Pediatra", "Cardiologista","Urologista","Ginecologista");
         cbEspecialidades.setValue("Todos");
 
@@ -64,6 +57,7 @@ public class PacienteAgendamentoConsulta implements Initializable{
     }
 
     private void listarTodos(){
+        lstMedico.getItems().clear();
         lstMedico.setCellFactory(new Callback<ListView<Medico>, ListCell<Medico>>() {
         @Override
         public ListCell<Medico> call(ListView<Medico> listView) {
