@@ -5,6 +5,7 @@ import com.github.hugoperlin.results.Resultado;
 import ifpr.pgua.eic.exemplodatas.App;
 import ifpr.pgua.eic.exemplodatas.model.entities.Pessoa;
 import ifpr.pgua.eic.exemplodatas.model.repositories.RepositorioLogin;
+import ifpr.pgua.eic.exemplodatas.model.repositories.RepositorioMedico;
 import ifpr.pgua.eic.exemplodatas.model.repositories.RepositorioPessoa;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -22,8 +23,10 @@ public class TelaLoginPaciente {
 
     private RepositorioLogin repositorioLogin;
     private RepositorioPessoa repositorioPessoa;
+    private RepositorioMedico repositorioMedico;
 
-    public TelaLoginPaciente(RepositorioLogin repositorioLogin, RepositorioPessoa repositorioPessoa){
+    public TelaLoginPaciente(RepositorioMedico repositorioMedico,RepositorioLogin repositorioLogin, RepositorioPessoa repositorioPessoa){
+        this.repositorioMedico = repositorioMedico;
         this.repositorioLogin = repositorioLogin;
         this.repositorioPessoa = repositorioPessoa;
     }
@@ -45,9 +48,8 @@ public class TelaLoginPaciente {
             alert = new Alert(AlertType.INFORMATION, resultado.getMsg());
             Resultado<Pessoa> rs = repositorioPessoa.buscarPorCpf(cpf);
             Pessoa pessoa = rs.comoSucesso().getObj();
-            System.out.println(pessoa);
 
-            App.pushScreen("TELAINICIALPACIENTE",o-> new TelaInicialPaciente(pessoa));
+            App.pushScreen("TELAINICIALPACIENTE",o-> new TelaInicialPaciente(repositorioMedico, pessoa));
         }
 
         alert.showAndWait();

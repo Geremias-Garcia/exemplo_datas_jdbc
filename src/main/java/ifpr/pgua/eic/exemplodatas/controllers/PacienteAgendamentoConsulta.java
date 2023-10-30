@@ -9,12 +9,16 @@ import java.util.ResourceBundle;
 
 import com.github.hugoperlin.results.Resultado;
 
+import ifpr.pgua.eic.exemplodatas.App;
 import ifpr.pgua.eic.exemplodatas.model.entities.Medico;
+import ifpr.pgua.eic.exemplodatas.model.entities.Pessoa;
 import ifpr.pgua.eic.exemplodatas.model.repositories.RepositorioMedico;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
@@ -33,16 +37,33 @@ public class PacienteAgendamentoConsulta implements Initializable{
     @FXML
     private ComboBox cbEspecialidades;
 
-    private RepositorioMedico repositorioMedico;
+    @FXML
+    private ComboBox cbHorarios;
 
-    public PacienteAgendamentoConsulta(RepositorioMedico repositorioMedico){
+    @FXML
+    private DatePicker date;
+
+    private RepositorioMedico repositorioMedico;
+    private Pessoa pessoa;
+
+    public PacienteAgendamentoConsulta(RepositorioMedico repositorioMedico, Pessoa pessoa){
         this.repositorioMedico = repositorioMedico;
+        this.pessoa = pessoa;
     }
 
     @Override
     public void initialize(URL arg0, ResourceBundle arg1) {
+        System.out.println(pessoa);
         cbEspecialidades.getItems().addAll("Todos", "Pediatra", "Cardiologista","Urologista","Ginecologista");
         cbEspecialidades.setValue("Todos");
+
+        cbHorarios.getItems().addAll(
+            "8:00", "8:30", "9:00", "9:30", "10:00",
+            "10:30", "11:00", "11:30", "12:00", "12:30",
+            "13:00", "13:30", "14:00", "14:30", "15:00",
+            "15:30", "16:00", "16:30", "17:00"
+        );
+        cbHorarios.setPromptText("Selecione um horário");
 
         listarTodos();
 
@@ -121,6 +142,11 @@ public class PacienteAgendamentoConsulta implements Initializable{
     private void atualizarTabela(List<Medico> medico){
         lstMedico.getItems().clear();
         lstMedico.getItems().addAll(medico);
+    }
+
+    @FXML
+    void voltar(ActionEvent event) {
+        App.popScreen();
     }
     
 }

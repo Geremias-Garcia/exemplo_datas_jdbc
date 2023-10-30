@@ -5,6 +5,7 @@ import java.util.ResourceBundle;
 
 import ifpr.pgua.eic.exemplodatas.App;
 import ifpr.pgua.eic.exemplodatas.model.entities.Pessoa;
+import ifpr.pgua.eic.exemplodatas.model.repositories.RepositorioMedico;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
@@ -15,10 +16,11 @@ public class TelaInicialPaciente implements Initializable{
     private Label bemVindo;
 
     private Pessoa pessoa;
-    
-    public TelaInicialPaciente(Pessoa pessoa){
+    private RepositorioMedico repositorioMedico;
+
+    public TelaInicialPaciente(RepositorioMedico repositorioMedico, Pessoa pessoa){
+        this.repositorioMedico = repositorioMedico;
         this.pessoa = pessoa;
-        System.out.println(pessoa+"login");
     }
 
     @Override
@@ -37,7 +39,7 @@ public class TelaInicialPaciente implements Initializable{
 
     @FXML
     private void agendamento(){
-        App.pushScreen("TELAAGENDAMENTOCONSULTA");
+        App.pushScreen("TELAAGENDAMENTOCONSULTA",o-> new PacienteAgendamentoConsulta(repositorioMedico, pessoa));
     }
 
 }

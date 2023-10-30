@@ -18,7 +18,6 @@ import ifpr.pgua.eic.exemplodatas.model.daos.LoginDAO;
 import ifpr.pgua.eic.exemplodatas.model.daos.MedicoDAO;
 import ifpr.pgua.eic.exemplodatas.model.daos.PessoaDAO;
 import ifpr.pgua.eic.exemplodatas.model.entities.Pessoa;
-import ifpr.pgua.eic.exemplodatas.model.repositories.Repositorio;
 import ifpr.pgua.eic.exemplodatas.model.repositories.RepositorioFuncionario;
 import ifpr.pgua.eic.exemplodatas.model.repositories.RepositorioLogin;
 import ifpr.pgua.eic.exemplodatas.model.repositories.RepositorioMedico;
@@ -74,11 +73,11 @@ public class App extends BaseAppNavigator {
 
         registraTela("CADASTRARMEDICO", new ScreenRegistryFXML(App.class, "cadastrarMedico.fxml", o->new CadastroMedico(repositorioMedico)));
 
-        registraTela("TELALOGINPACIENTE", new ScreenRegistryFXML(App.class, "telaLoginPaciente.fxml", o->new TelaLoginPaciente(repositorioLogin, repositorioPessoa)));
+        registraTela("TELALOGINPACIENTE", new ScreenRegistryFXML(App.class, "telaLoginPaciente.fxml", o->new TelaLoginPaciente(repositorioMedico,repositorioLogin, repositorioPessoa)));
 
-        registraTela("TELAINICIALPACIENTE", new ScreenRegistryFXML(App.class, "telaInicialPaciente.fxml", o->new TelaInicialPaciente(pessoa)));
+        registraTela("TELAINICIALPACIENTE", new ScreenRegistryFXML(App.class, "telaInicialPaciente.fxml", o->new TelaInicialPaciente(repositorioMedico, pessoa)));
 
-        registraTela("TELAAGENDAMENTOCONSULTA", new ScreenRegistryFXML(App.class, "pacienteAgendamentoConsulta.fxml", o->new PacienteAgendamentoConsulta(repositorioMedico)));
+        registraTela("TELAAGENDAMENTOCONSULTA", new ScreenRegistryFXML(App.class, "pacienteAgendamentoConsulta.fxml", o->new PacienteAgendamentoConsulta(repositorioMedico, pessoa)));
     }
 
 }
