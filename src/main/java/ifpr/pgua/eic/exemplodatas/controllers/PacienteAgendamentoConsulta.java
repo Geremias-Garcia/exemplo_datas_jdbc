@@ -1,6 +1,7 @@
 package ifpr.pgua.eic.exemplodatas.controllers;
 
 import java.net.URL;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -10,8 +11,10 @@ import java.util.ResourceBundle;
 import com.github.hugoperlin.results.Resultado;
 
 import ifpr.pgua.eic.exemplodatas.App;
+import ifpr.pgua.eic.exemplodatas.model.entities.Agendamento;
 import ifpr.pgua.eic.exemplodatas.model.entities.Medico;
 import ifpr.pgua.eic.exemplodatas.model.entities.Pessoa;
+import ifpr.pgua.eic.exemplodatas.model.repositories.RepositorioAgendamento;
 import ifpr.pgua.eic.exemplodatas.model.repositories.RepositorioMedico;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -24,6 +27,8 @@ import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
 import javafx.util.Callback;
 
 public class PacienteAgendamentoConsulta implements Initializable{
@@ -44,11 +49,14 @@ public class PacienteAgendamentoConsulta implements Initializable{
     private DatePicker date;
 
     private RepositorioMedico repositorioMedico;
+    private RepositorioAgendamento repositorioAgendamento;
     private Pessoa pessoa;
+    private int medicoId;
 
-    public PacienteAgendamentoConsulta(RepositorioMedico repositorioMedico, Pessoa pessoa){
+    public PacienteAgendamentoConsulta(RepositorioMedico repositorioMedico, Pessoa pessoa, RepositorioAgendamento repositorioAgendamento){
         this.repositorioMedico = repositorioMedico;
         this.pessoa = pessoa;
+        this.repositorioAgendamento = repositorioAgendamento;
     }
 
     @Override
@@ -138,10 +146,47 @@ public class PacienteAgendamentoConsulta implements Initializable{
             }
         }
     }
+
+    @FXML
+    private void pegarId(MouseEvent evento){
+        Medico medico = lstMedico.getSelectionModel().getSelectedItem();
+        
+        if(medico != null){
+            medicoId = medico.getId();
+        }
+        
+    }
     
     private void atualizarTabela(List<Medico> medico){
         lstMedico.getItems().clear();
         lstMedico.getItems().addAll(medico);
+    }
+
+    @FXML
+    void agendar(ActionEvent event) {
+        LocalDate data = date.getValue();
+        String hora = (String) cbHorarios.getValue();
+        hora = hora+":00";
+        System.out.println(data+" "+hora+" "+medicoId+" "+pessoa.getId());
+
+        Agendamento agendamento = new Agendamento(pessoa.getId(), medicoId, data, hora);
+
+        Resultado resultado = repositorioAgendamento.agendar(agendamento);
+
+        Alert alert;
+        
+        if(resultado.foiErro()){
+            alert = new Alert(AlertType.ERROR, resultado.getMsg());
+        }else{
+            alert = new Alert(AlertType.INFORMATION, resultado.getMsg());
+        }
+
+        alert.showAndWait();
+    }
+
+    @FXML
+    void consultar(ActionEvent event){
+        System.out.println(date.getValue());
     }
 
     @FXML

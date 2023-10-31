@@ -5,6 +5,7 @@ import java.util.ResourceBundle;
 
 import ifpr.pgua.eic.exemplodatas.App;
 import ifpr.pgua.eic.exemplodatas.model.entities.Pessoa;
+import ifpr.pgua.eic.exemplodatas.model.repositories.RepositorioAgendamento;
 import ifpr.pgua.eic.exemplodatas.model.repositories.RepositorioMedico;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -17,10 +18,12 @@ public class TelaInicialPaciente implements Initializable{
 
     private Pessoa pessoa;
     private RepositorioMedico repositorioMedico;
+    private RepositorioAgendamento repositorioAgendamento;
 
-    public TelaInicialPaciente(RepositorioMedico repositorioMedico, Pessoa pessoa){
+    public TelaInicialPaciente(RepositorioMedico repositorioMedico, Pessoa pessoa, RepositorioAgendamento repositorioAgendamento){
         this.repositorioMedico = repositorioMedico;
         this.pessoa = pessoa;
+        this.repositorioAgendamento = repositorioAgendamento;
     }
 
     @Override
@@ -39,7 +42,7 @@ public class TelaInicialPaciente implements Initializable{
 
     @FXML
     private void agendamento(){
-        App.pushScreen("TELAAGENDAMENTOCONSULTA",o-> new PacienteAgendamentoConsulta(repositorioMedico, pessoa));
+        App.pushScreen("TELAAGENDAMENTOCONSULTA",o-> new PacienteAgendamentoConsulta(repositorioMedico, pessoa, repositorioAgendamento));
     }
 
 }

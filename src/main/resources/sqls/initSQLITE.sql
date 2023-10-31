@@ -44,3 +44,17 @@ CREATE TABLE loginPaciente (
     senha TEXT NOT NULL
 );
 
+CREATE TABLE agendamento (
+    id INTEGER PRIMARY KEY,
+    id_paciente INTEGER,
+    id_medico INTEGER,
+    data DATE,
+    hora TIME,
+    status TEXT,
+    FOREIGN KEY (id_paciente) REFERENCES pessoa(id),
+    FOREIGN KEY (id_medico) REFERENCES medico(id)
+);
+
+
+
+

@@ -5,9 +5,7 @@ import java.util.ArrayList;
 import com.github.hugoperlin.results.Resultado;
 
 import ifpr.pgua.eic.exemplodatas.model.daos.MedicoDAO;
-import ifpr.pgua.eic.exemplodatas.model.daos.PessoaDAO;
 import ifpr.pgua.eic.exemplodatas.model.entities.Medico;
-import ifpr.pgua.eic.exemplodatas.model.entities.Pessoa;
 
 public class RepositorioMedico {
 

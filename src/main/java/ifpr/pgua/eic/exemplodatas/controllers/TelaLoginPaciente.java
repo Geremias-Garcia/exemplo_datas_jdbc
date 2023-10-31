@@ -4,6 +4,7 @@ import com.github.hugoperlin.results.Resultado;
 
 import ifpr.pgua.eic.exemplodatas.App;
 import ifpr.pgua.eic.exemplodatas.model.entities.Pessoa;
+import ifpr.pgua.eic.exemplodatas.model.repositories.RepositorioAgendamento;
 import ifpr.pgua.eic.exemplodatas.model.repositories.RepositorioLogin;
 import ifpr.pgua.eic.exemplodatas.model.repositories.RepositorioMedico;
 import ifpr.pgua.eic.exemplodatas.model.repositories.RepositorioPessoa;
@@ -24,11 +25,13 @@ public class TelaLoginPaciente {
     private RepositorioLogin repositorioLogin;
     private RepositorioPessoa repositorioPessoa;
     private RepositorioMedico repositorioMedico;
+    private RepositorioAgendamento repositorioAgendamento;
 
-    public TelaLoginPaciente(RepositorioMedico repositorioMedico,RepositorioLogin repositorioLogin, RepositorioPessoa repositorioPessoa){
+    public TelaLoginPaciente(RepositorioMedico repositorioMedico,RepositorioLogin repositorioLogin, RepositorioPessoa repositorioPessoa, RepositorioAgendamento repositorioAgendamento){
         this.repositorioMedico = repositorioMedico;
         this.repositorioLogin = repositorioLogin;
         this.repositorioPessoa = repositorioPessoa;
+        this.repositorioAgendamento = repositorioAgendamento;
     }
 
     @FXML
@@ -49,7 +52,7 @@ public class TelaLoginPaciente {
             Resultado<Pessoa> rs = repositorioPessoa.buscarPorCpf(cpf);
             Pessoa pessoa = rs.comoSucesso().getObj();
 
-            App.pushScreen("TELAINICIALPACIENTE",o-> new TelaInicialPaciente(repositorioMedico, pessoa));
+            App.pushScreen("TELAINICIALPACIENTE",o-> new TelaInicialPaciente(repositorioMedico, pessoa, repositorioAgendamento));
         }
 
         alert.showAndWait();
