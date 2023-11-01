@@ -20,6 +20,8 @@ public class JDBCMedicoDAO implements MedicoDAO {
     
     private static final String SELECTSQL = "SELECT * FROM medico";
 
+    private static final String SELECTPORID = "SELECT * FROM medico WHERE id = ?";
+
     private static final String FILTRO = "SELECT * FROM medico WHERE nome LIKE ? || '%'";
 
     private static final String FILTROESPECIALIDADE = "SELECT * FROM medico WHERE especialidade LIKE ? || '%'";
@@ -101,6 +103,41 @@ public class JDBCMedicoDAO implements MedicoDAO {
             }
 
             return Resultado.sucesso("Categorias listadas", lista);
+
+        } catch (SQLException e) {
+            return Resultado.erro(e.getMessage());
+        }
+    }
+
+    @Override
+    public Resultado<Medico> buscarPorId(int id) {
+        try (Connection con = fabrica.getConnection()) {
+            PreparedStatement pstm = con.prepareStatement(SELECTPORID);
+
+            pstm.setInt(1, id);
+
+            ResultSet rs = pstm.executeQuery();
+
+            Medico medico = null;
+            while(rs.next()){
+                String nome = rs.getString("nome");
+                String cpf = rs.getString("cpf");
+                String telefone = rs.getString("telefone");
+                String email = rs.getString("email");
+
+                java.sql.Date sqlDate = rs.getDate("dataNascimento");
+                LocalDate dataNascimento = sqlDate.toLocalDate();
+
+                String genero = rs.getString("genero");
+                boolean isAtive = rs.getBoolean("isAtive");
+                double salario = rs.getDouble("salario");
+                String especialidade = rs.getString("especialidade");
+                String crm = rs.getString("crm");
+
+                medico = new Medico(id, nome, cpf, telefone, email, dataNascimento, genero, isAtive,salario,especialidade,crm);
+            }
+
+            return Resultado.sucesso("Contatos", medico);
 
         } catch (SQLException e) {
             return Resultado.erro(e.getMessage());

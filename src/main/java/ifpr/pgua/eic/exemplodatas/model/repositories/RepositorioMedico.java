@@ -28,6 +28,10 @@ public class RepositorioMedico {
         return dao.filtrarNome(inicio);
     }
 
+    public Resultado<Medico> buscarPorId(int id) {
+        return dao.buscarPorId(id);
+    }
+
     public Resultado<ArrayList<Medico>> filtrarEspecialidade(String especialidade) {
         return dao.filtrarEspecialidade(especialidade);
     }

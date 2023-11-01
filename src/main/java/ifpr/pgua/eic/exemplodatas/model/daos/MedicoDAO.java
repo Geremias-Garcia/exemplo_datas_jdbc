@@ -13,6 +13,8 @@ public interface MedicoDAO {
 
     Resultado listar();
 
+    Resultado<Medico> buscarPorId(int id);
+
     Resultado<ArrayList<Medico>> filtrarNome(String inicio);
 
     Resultado<ArrayList<Medico>> filtrarEspecialidade(String especialidade);

@@ -1,21 +1,44 @@
 package ifpr.pgua.eic.exemplodatas.controllers;
 
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 
+import com.github.hugoperlin.results.Resultado;
+
 import ifpr.pgua.eic.exemplodatas.App;
+import ifpr.pgua.eic.exemplodatas.model.entities.Agendamento;
+import ifpr.pgua.eic.exemplodatas.model.entities.Medico;
 import ifpr.pgua.eic.exemplodatas.model.entities.Pessoa;
 import ifpr.pgua.eic.exemplodatas.model.repositories.RepositorioAgendamento;
 import ifpr.pgua.eic.exemplodatas.model.repositories.RepositorioMedico;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Label;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 
 public class TelaInicialPaciente implements Initializable{
 
     @FXML
     private Label bemVindo;
 
+    @FXML
+    private TableView<Agendamento> tbConsultas;
+
+    @FXML
+    private TableColumn<Agendamento, String> tcData;
+
+    @FXML
+    private TableColumn<Agendamento, String> tcMedico;
+
+    @FXML
+    private TableColumn<Agendamento, String> tcStatus;
+    
     private Pessoa pessoa;
     private RepositorioMedico repositorioMedico;
     private RepositorioAgendamento repositorioAgendamento;
@@ -29,6 +52,28 @@ public class TelaInicialPaciente implements Initializable{
     @Override
     public void initialize(URL arg0, ResourceBundle arg1) {
         textoLabel();
+        loadConsultas();
+        configureTableView();
+    }
+
+    public void configureTableView() {
+        tcData.setCellValueFactory(celula -> new SimpleStringProperty(celula.getValue().getData().toString()));
+        tcMedico.setCellValueFactory(celula -> new SimpleStringProperty(celula.getValue().getMedico().getNome() + ""));
+        tcStatus.setCellValueFactory(celula -> new SimpleStringProperty(celula.getValue().getStatus()));
+    }
+
+    public void loadConsultas() {
+        Resultado rs = repositorioAgendamento.buscarIdPaciente(pessoa.getId());
+
+        if (rs.foiErro()) {
+            Alert alert = new Alert(AlertType.ERROR, rs.getMsg());
+            alert.showAndWait();
+            return;
+        }
+
+        List<Agendamento> lista = (List) rs.comoSucesso().getObj();
+
+        tbConsultas.setItems(FXCollections.observableArrayList(lista));
     }
 
     public void textoLabel(){

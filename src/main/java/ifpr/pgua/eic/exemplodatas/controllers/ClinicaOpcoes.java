@@ -21,8 +21,7 @@ public class ClinicaOpcoes {
     }
 
     @FXML
-    private void listarPacientes(){
-        App.pushScreen("LISTARPACIENTES");
+    private void verificarConsultas(){
+        
     }
-
 }

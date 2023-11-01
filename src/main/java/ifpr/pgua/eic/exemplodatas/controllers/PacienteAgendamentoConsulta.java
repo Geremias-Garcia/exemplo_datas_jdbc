@@ -51,7 +51,7 @@ public class PacienteAgendamentoConsulta implements Initializable{
     private RepositorioMedico repositorioMedico;
     private RepositorioAgendamento repositorioAgendamento;
     private Pessoa pessoa;
-    private int medicoId;
+    private Medico medico;
 
     public PacienteAgendamentoConsulta(RepositorioMedico repositorioMedico, Pessoa pessoa, RepositorioAgendamento repositorioAgendamento){
         this.repositorioMedico = repositorioMedico;
@@ -83,6 +83,9 @@ public class PacienteAgendamentoConsulta implements Initializable{
                 atualizarListaMedicosFiltrados(especialidade);
             }
         });
+
+        date.setDisable(true);
+        cbHorarios.setDisable(true);
     }
 
     private void listarTodos(){
@@ -149,12 +152,9 @@ public class PacienteAgendamentoConsulta implements Initializable{
 
     @FXML
     private void pegarId(MouseEvent evento){
-        Medico medico = lstMedico.getSelectionModel().getSelectedItem();
-        
-        if(medico != null){
-            medicoId = medico.getId();
-        }
-        
+        medico = lstMedico.getSelectionModel().getSelectedItem();
+
+        date.setDisable(false);
     }
     
     private void atualizarTabela(List<Medico> medico){
@@ -167,9 +167,9 @@ public class PacienteAgendamentoConsulta implements Initializable{
         LocalDate data = date.getValue();
         String hora = (String) cbHorarios.getValue();
         hora = hora+":00";
-        System.out.println(data+" "+hora+" "+medicoId+" "+pessoa.getId());
+        String status = "Aguardando";
 
-        Agendamento agendamento = new Agendamento(pessoa.getId(), medicoId, data, hora);
+        Agendamento agendamento = new Agendamento(pessoa, medico, data, hora, status);
 
         Resultado resultado = repositorioAgendamento.agendar(agendamento);
 
@@ -187,6 +187,7 @@ public class PacienteAgendamentoConsulta implements Initializable{
     @FXML
     void consultar(ActionEvent event){
         System.out.println(date.getValue());
+        cbHorarios.setDisable(false);
     }
 
     @FXML

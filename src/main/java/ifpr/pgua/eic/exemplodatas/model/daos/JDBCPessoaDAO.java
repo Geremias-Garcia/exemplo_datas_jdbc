@@ -10,6 +10,7 @@ import java.util.ArrayList;
 
 import com.github.hugoperlin.results.Resultado;
 
+import ifpr.pgua.eic.exemplodatas.model.entities.Medico;
 import ifpr.pgua.eic.exemplodatas.model.entities.Pessoa;
 import ifpr.pgua.eic.exemplodatas.utils.DBUtils;
 
@@ -18,6 +19,7 @@ public class JDBCPessoaDAO implements PessoaDAO{
     private static final String INSERTSQL = "INSERT INTO pessoa (nome, cpf, telefone, email, dataNascimento, genero, isAtive)\r\n" + //
             "VALUES (?, ?, ?, ?, ?, ?, ?);";
     private static final String SELECTSQL = "SELECT * FROM pessoa";
+    private static final String SELECTPORID = "SELECT * FROM pessoa WHERE id = ?";
     private static final String FILTRO = "SELECT * FROM pessoa WHERE nome LIKE ? || '%'";
     private static final String BUSCARCPF = "SELECT * FROM pessoa WHERE cpf = (?)";
 
@@ -102,6 +104,40 @@ VALUES ('Maria', '9876543210', '987-654-3210', 'maria@example.com', '1995-08-20'
         }
 
     }
+
+    @Override
+    public Resultado<Pessoa> buscarPorId(int id) {
+        try (Connection con = fabrica.getConnection()) {
+            PreparedStatement pstm = con.prepareStatement(SELECTPORID);
+
+            pstm.setInt(1, id);
+
+            ResultSet rs = pstm.executeQuery();
+
+            Pessoa pessoa = null;
+            while(rs.next()){
+                String nome = rs.getString("nome");
+                String cpf = rs.getString("cpf");
+                String telefone = rs.getString("telefone");
+                String email = rs.getString("email");
+
+                java.sql.Date sqlDate = rs.getDate("dataNascimento");
+                LocalDate dataNascimento = sqlDate.toLocalDate();
+
+                String genero = rs.getString("genero");
+                boolean isAtive = rs.getBoolean("isAtive");
+                
+
+                pessoa = new Pessoa(id, nome, cpf, telefone, email, dataNascimento, genero, isAtive);
+            }
+
+            return Resultado.sucesso("Contatos", pessoa);
+
+        } catch (SQLException e) {
+            return Resultado.erro(e.getMessage());
+        }
+    }
+
 
     @Override
     public Resultado<ArrayList<Pessoa>> filtrarNome(String inicio) {

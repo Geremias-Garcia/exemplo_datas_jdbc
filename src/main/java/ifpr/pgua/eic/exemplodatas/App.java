@@ -46,7 +46,7 @@ public class App extends BaseAppNavigator {
     private RepositorioLogin repositorioLogin = new RepositorioLogin(loginDAO);
 
     private AgendamentoDAO agendamentoDAO = new JDBCAgendamentoDAO(FabricaConexoes.getInstance());
-    private RepositorioAgendamento repositorioAgendamento = new RepositorioAgendamento(agendamentoDAO);
+    private RepositorioAgendamento repositorioAgendamento = new RepositorioAgendamento(agendamentoDAO, pessoaDAO, medicoDAO);
 
     private Pessoa pessoa;
 
