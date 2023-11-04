@@ -8,6 +8,7 @@ import ifpr.pgua.eic.exemplodatas.controllers.PacienteAgendamentoConsulta;
 import ifpr.pgua.eic.exemplodatas.controllers.Principal;
 import ifpr.pgua.eic.exemplodatas.controllers.TelaInicialPaciente;
 import ifpr.pgua.eic.exemplodatas.controllers.TelaLoginPaciente;
+import ifpr.pgua.eic.exemplodatas.controllers.VerificarConsultas;
 import ifpr.pgua.eic.exemplodatas.model.daos.AgendamentoDAO;
 import ifpr.pgua.eic.exemplodatas.model.daos.FabricaConexoes;
 import ifpr.pgua.eic.exemplodatas.model.daos.FuncionarioDAO;
@@ -71,7 +72,9 @@ public class App extends BaseAppNavigator {
     public void registrarTelas() {
         registraTela("PRINCIPAL", new ScreenRegistryFXML(App.class, "principal.fxml", o->new Principal()));
 
-        registraTela("CLINICAOPCOES", new ScreenRegistryFXML(App.class, "clinicaOpcoes.fxml", o->new ClinicaOpcoes()));
+        registraTela("CLINICAOPCOES", new ScreenRegistryFXML(App.class, "clinicaOpcoes.fxml", o->new ClinicaOpcoes(repositorioAgendamento)));
+
+        registraTela("VERIFICARCONSULTAS", new ScreenRegistryFXML(App.class, "verificarConsultas.fxml", o->new VerificarConsultas(repositorioAgendamento)));
 
         registraTela("CADASTRO", new ScreenRegistryFXML(App.class, "cadastroPaciente.fxml", o->new CadastroPaciente(repositorioPessoa)));
 

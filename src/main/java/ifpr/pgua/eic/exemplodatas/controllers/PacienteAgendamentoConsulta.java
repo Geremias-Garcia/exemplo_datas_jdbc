@@ -3,6 +3,7 @@ package ifpr.pgua.eic.exemplodatas.controllers;
 import java.net.URL;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -61,16 +62,9 @@ public class PacienteAgendamentoConsulta implements Initializable{
 
     @Override
     public void initialize(URL arg0, ResourceBundle arg1) {
-        System.out.println(pessoa);
         cbEspecialidades.getItems().addAll("Todos", "Pediatra", "Cardiologista","Urologista","Ginecologista");
         cbEspecialidades.setValue("Todos");
 
-        cbHorarios.getItems().addAll(
-            "8:00", "8:30", "9:00", "9:30", "10:00",
-            "10:30", "11:00", "11:30", "12:00", "12:30",
-            "13:00", "13:30", "14:00", "14:30", "15:00",
-            "15:30", "16:00", "16:30", "17:00"
-        );
         cbHorarios.setPromptText("Selecione um horário");
 
         listarTodos();
@@ -185,10 +179,28 @@ public class PacienteAgendamentoConsulta implements Initializable{
     }
 
     @FXML
-    void consultar(ActionEvent event){
-        System.out.println(date.getValue());
+    void consultar(ActionEvent event) {
+        Resultado<ArrayList<String>> resultado = repositorioAgendamento.verificarDisponibilidadeHorario(medico.getId(), date.getValue());
+
+        if (resultado.foiSucesso()) {
+            List<String> horariosIndisponiveis = resultado.comoSucesso().getObj();
+            System.out.println(horariosIndisponiveis);
+
+            List<String> horariosDisponiveis = new ArrayList<>(Arrays.asList(
+                "8:00", "8:30", "9:00", "9:30", "10:00",
+                "10:30", "11:00", "11:30", "12:00", "12:30",
+                "13:00", "13:30", "14:00", "14:30", "15:00",
+                "15:30", "16:00", "16:30", "17:00"
+            ));
+
+            horariosDisponiveis.removeAll(horariosIndisponiveis);
+            
+            cbHorarios.getItems().setAll(horariosDisponiveis);
+            cbHorarios.setPromptText("Selecione um horário");
+        }
+
         cbHorarios.setDisable(false);
-    }
+    }   
 
     @FXML
     void voltar(ActionEvent event) {

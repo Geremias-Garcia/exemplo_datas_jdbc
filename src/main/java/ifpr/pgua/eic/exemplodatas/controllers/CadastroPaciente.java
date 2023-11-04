@@ -211,7 +211,7 @@ public class CadastroPaciente implements Initializable{
         }
     }
 
-   @FXML
+    @FXML
     private void mostrarDetalhes(MouseEvent evento){
         Pessoa pessoa = lstPacientes.getSelectionModel().getSelectedItem();
         System.out.println(pessoa.getId());

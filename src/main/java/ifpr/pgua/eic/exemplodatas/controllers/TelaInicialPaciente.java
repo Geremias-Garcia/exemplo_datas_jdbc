@@ -19,6 +19,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Label;
+import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 
@@ -60,6 +61,33 @@ public class TelaInicialPaciente implements Initializable{
         tcData.setCellValueFactory(celula -> new SimpleStringProperty(celula.getValue().getData().toString()));
         tcMedico.setCellValueFactory(celula -> new SimpleStringProperty(celula.getValue().getMedico().getNome() + ""));
         tcStatus.setCellValueFactory(celula -> new SimpleStringProperty(celula.getValue().getStatus()));
+
+        tcStatus.setCellFactory(column -> {
+            return new TableCell<Agendamento, String>() {
+                @Override
+                protected void updateItem(String item, boolean empty) {
+                    super.updateItem(item, empty);
+        
+                    if (item == null || empty) {
+                        setText(null);
+                        setStyle("");
+                    } else {
+                        setText(item);
+        
+                        if ("Aguardando".equals(item)) {
+                            setStyle("-fx-text-fill: blue;");
+                        } else if ("Confirmada".equals(item)) {
+                            setStyle("-fx-text-fill: green;");
+                        } else if ("Cancelada".equals(item)) {
+                            setStyle("-fx-text-fill: red;");
+                        } else {
+                            setStyle("");
+                        }
+                    }
+                }
+            };
+        });
+        
     }
 
     public void loadConsultas() {

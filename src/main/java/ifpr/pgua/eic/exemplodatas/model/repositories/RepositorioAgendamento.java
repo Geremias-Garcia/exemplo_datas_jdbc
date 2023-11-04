@@ -67,4 +67,63 @@ public class RepositorioAgendamento {
         return Resultado.sucesso("ok", agendamento);
     }
     
+    public Resultado<ArrayList<String>> verificarDisponibilidadeHorario(int medicoId, LocalDate data) {
+        Resultado resultado = dao.verificarDisponibilidadeHorario(medicoId, data);
+        
+        ArrayList<String> horariosFormatados = new ArrayList<>(); 
+        if(resultado.foiSucesso()){
+            List<String> lista = (List<String>)resultado.comoSucesso().getObj();
+            for(String hora : lista) {
+                if(hora.length() > 0 && (hora.charAt(0) != '1' && hora.charAt(0) != '2')){
+                    String horaFormatada = hora.substring(0, 4);
+                    horariosFormatados.add(horaFormatada);
+                }else{
+                    String horaFormatada = hora.substring(0, 5);
+                    horariosFormatados.add(horaFormatada);
+                }
+            }
+            System.out.println(horariosFormatados);
+            
+        }
+        
+        return Resultado.sucesso("ok", horariosFormatados);
+    }
+    
+    public Resultado verificarNumeroConsultasEmAguardo(){
+        return dao.verificarNumeroConsultasEmAguardo();
+    }
+
+    public Resultado<ArrayList<Agendamento>> consultasAguardandoConfirmação(){
+        Resultado resultado = dao.consultasAguardandoConfirmação();
+
+        ArrayList<Agendamento> agendamento = new ArrayList<>(); 
+        if(resultado.foiSucesso()){
+            List<Agendamento> lista = (List<Agendamento>)resultado.comoSucesso().getObj();
+         
+            for(Agendamento agendamentos:lista){
+                Resultado r1 = medicoDAO.buscarPorId(agendamentos.getId_medico());
+                if(r1.foiErro()){
+                    return r1;
+                }
+                Medico medico = (Medico)r1.comoSucesso().getObj();
+                agendamentos.setMedico(medico);
+
+                Resultado r2 = pessoaDAO.buscarPorId(agendamentos.getId_paciente());
+                if(r1.foiErro()){
+                    return r2;
+                }
+
+                Pessoa pessoa = (Pessoa)r2.comoSucesso().getObj();
+                agendamentos.setPessoa(pessoa);
+
+                agendamento.add(agendamentos);
+            }
+        }   
+        return Resultado.sucesso("ok", agendamento);
+    }
+
+    public Resultado alterarStatusConsulta(int id, String status){
+        return dao.alterarStatusConsulta(id, status);
+    }
+
 }
