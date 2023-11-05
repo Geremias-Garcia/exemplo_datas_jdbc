@@ -85,36 +85,8 @@ public class CadastroMedico implements Initializable {
         this.repositorioMedico = repositorioMedico;
     }
 
-    @FXML
-    private void listar(MouseEvent evento){
-        Medico medico = lstMedico.getSelectionModel().getSelectedItem();
-        if (medico != null) {
-            System.out.println(medico.getId());
-            System.out.println("ok");
-            detalhes.clear();
-            detalhes.appendText("ID: " + medico.getId() + "\n");
-            detalhes.appendText("Nome: " + medico.getNome() + "\n");
-            detalhes.appendText("CPF: " + medico.getCpf() + "\n");
-            detalhes.appendText("Telefone: " + medico.getTelefone() + "\n\n");
-            detalhes.appendText("Email: " + medico.getEmail() + "\n");
-            detalhes.appendText("Data de nascimento: " + medico.getDataNascimento() + "\n");
-            boolean cadastro = medico.isAtive();
-            if (cadastro == true) {
-                detalhes.appendText("Situação do cadastro: Ativo");
-            } else {
-                detalhes.appendText("Situação do cadastro: Inativo");
-            }
-        }
-         
-    }
-
-    @Override
-    public void initialize(URL arg0, ResourceBundle arg1) {
-        cbGenero.getItems().addAll("Masculino", "Feminino");
-        cbEspecialidade.getItems().addAll("Pediatra", "Cardiologista","Urologista","Ginecologista");
-
+    private void listar(){
         lstMedico.getItems().clear();
-
         lstMedico.setCellFactory(new Callback<ListView<Medico>, ListCell<Medico>>() {
         @Override
         public ListCell<Medico> call(ListView<Medico> listView) {
@@ -142,7 +114,15 @@ public class CadastroMedico implements Initializable {
             Collections.sort(lista, Comparator.comparing(Medico::getNome));
             lstMedico.getItems().addAll(lista);
         }
+         
+    }
 
+    @Override
+    public void initialize(URL arg0, ResourceBundle arg1) {
+        cbGenero.getItems().addAll("Masculino", "Feminino");
+        cbEspecialidade.getItems().addAll("Pediatra", "Cardiologista","Urologista","Ginecologista");
+
+        listar();
         criarMedicos();
     }
 
@@ -220,9 +200,7 @@ public class CadastroMedico implements Initializable {
                 atualizarTabela(resultado.comoSucesso().getObj());
             }
         }else{
-           Resultado<ArrayList<Medico>> resultado = repositorioMedico.listar();
-
-           atualizarTabela(resultado.comoSucesso().getObj());
+           listar();
         }
     }
 
@@ -279,7 +257,4 @@ public class CadastroMedico implements Initializable {
         LocalDate dataNascimento = LocalDate.of(1990 + random.nextInt(30), random.nextInt(12) + 1, random.nextInt(28) + 1);
         return dataNascimento;
     }
-
-
-
 }

@@ -14,7 +14,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.TextField;
 
-public class TelaLoginPaciente {
+public class TelaLoginMedico {
 
     @FXML
     private TextField tfCpf;
@@ -27,7 +27,7 @@ public class TelaLoginPaciente {
     private RepositorioMedico repositorioMedico;
     private RepositorioAgendamento repositorioAgendamento;
 
-    public TelaLoginPaciente(RepositorioMedico repositorioMedico,RepositorioLogin repositorioLogin, RepositorioPessoa repositorioPessoa, RepositorioAgendamento repositorioAgendamento){
+    public TelaLoginMedico(RepositorioMedico repositorioMedico, RepositorioLogin repositorioLogin, RepositorioPessoa repositorioPessoa, RepositorioAgendamento repositorioAgendamento){
         this.repositorioMedico = repositorioMedico;
         this.repositorioLogin = repositorioLogin;
         this.repositorioPessoa = repositorioPessoa;
@@ -41,7 +41,7 @@ public class TelaLoginPaciente {
         String cpf = tfCpf.getText();
         String senha = tfSenha.getText();
 
-        Resultado resultado = repositorioLogin.validarLoginPaciente(cpf, senha);
+        Resultado resultado = repositorioLogin.validarLoginMedico(cpf, senha);
 
         Alert alert;
         
@@ -49,10 +49,10 @@ public class TelaLoginPaciente {
             alert = new Alert(AlertType.ERROR, resultado.getMsg());
         }else{
             alert = new Alert(AlertType.INFORMATION, resultado.getMsg());
-            Resultado<Pessoa> rs = repositorioPessoa.buscarPorCpf(cpf);
+            Resultado<Pessoa> rs = repositorioMedico.buscarPorCpf(cpf);
             Pessoa pessoa = rs.comoSucesso().getObj();
 
-            App.pushScreen("TELAINICIALPACIENTE",o-> new TelaInicialPaciente(repositorioMedico, pessoa, repositorioAgendamento));
+            App.pushScreen("TELAINICIALMEDICO",o-> new TelaInicialMedico());
         }
 
         alert.showAndWait();

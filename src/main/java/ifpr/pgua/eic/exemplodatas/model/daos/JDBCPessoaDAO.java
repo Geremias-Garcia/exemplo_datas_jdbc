@@ -23,16 +23,6 @@ public class JDBCPessoaDAO implements PessoaDAO{
     private static final String FILTRO = "SELECT * FROM pessoa WHERE nome LIKE ? || '%'";
     private static final String BUSCARCPF = "SELECT * FROM pessoa WHERE cpf = (?)";
 
-    /*
-     * 
-     * INSERT INTO Pessoa (nome, cpf, telefone, email, dataNascimento, genero, isAtive)
-VALUES ('João', '1234567890', '123-456-7890', 'joao@example.com', '1990-05-15', 'Masculino', 1);
-
-INSERT INTO Pessoa (nome, cpf, telefone, email, dataNascimento, genero, isAtive)
-VALUES ('Maria', '9876543210', '987-654-3210', 'maria@example.com', '1995-08-20', 'Feminino', 1);
-
-     */
-
     private FabricaConexoes fabrica;
 
     public JDBCPessoaDAO(FabricaConexoes fabrica) {

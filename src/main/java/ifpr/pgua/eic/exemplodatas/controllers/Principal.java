@@ -16,4 +16,9 @@ public class Principal {
         App.pushScreen("TELALOGINPACIENTE");
     }
 
+    @FXML
+    private void loginMedico(){
+        App.pushScreen("TELALOGINMEDICO");
+    }
+
 }

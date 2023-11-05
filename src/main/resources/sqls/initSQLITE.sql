@@ -44,6 +44,12 @@ CREATE TABLE loginPaciente (
     senha TEXT NOT NULL
 );
 
+CREATE TABLE loginMedico (
+    id INTEGER PRIMARY KEY,
+    cpf TEXT UNIQUE NOT NULL,
+    senha TEXT NOT NULL
+);
+
 CREATE TABLE agendamento (
     id INTEGER PRIMARY KEY,
     id_paciente INTEGER,

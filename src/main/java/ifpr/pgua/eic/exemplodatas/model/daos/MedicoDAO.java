@@ -15,6 +15,8 @@ public interface MedicoDAO {
 
     Resultado<Medico> buscarPorId(int id);
 
+    Resultado buscarPorCpf(String cpf);
+
     Resultado<ArrayList<Medico>> filtrarNome(String inicio);
 
     Resultado<ArrayList<Medico>> filtrarEspecialidade(String especialidade);

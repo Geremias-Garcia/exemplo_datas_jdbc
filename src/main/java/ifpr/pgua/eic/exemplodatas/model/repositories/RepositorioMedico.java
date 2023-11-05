@@ -32,6 +32,10 @@ public class RepositorioMedico {
         return dao.buscarPorId(id);
     }
 
+    public Resultado buscarPorCpf(String cpf){
+        return dao.buscarPorCpf(cpf);
+    }
+    
     public Resultado<ArrayList<Medico>> filtrarEspecialidade(String especialidade) {
         return dao.filtrarEspecialidade(especialidade);
     }
@@ -39,5 +43,5 @@ public class RepositorioMedico {
     public Resultado<ArrayList<Medico>> filtrarEspecialidadeENome(String especialidade, String inicio) {
         return dao.filtrarEspecialidadeENome(especialidade, inicio);
     }
-    
+
 }

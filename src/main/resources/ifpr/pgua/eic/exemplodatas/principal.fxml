@@ -11,6 +11,7 @@
   <columnConstraints>
     <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
     <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
   </columnConstraints>
   <rowConstraints>
     <RowConstraints maxHeight="128.60001220703126" minHeight="0.0" prefHeight="0.0" vgrow="SOMETIMES" />
@@ -28,6 +29,12 @@
          <children>
             <Label text="Exemplo tela da clinica" />
             <Button mnemonicParsing="false" onAction="#clinicaOpcoes" text="CLINICA" />
+         </children>
+      </VBox>
+      <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="20.0" GridPane.columnIndex="2" GridPane.rowIndex="1">
+         <children>
+            <Label text="Exemplo tela do médico" />
+            <Button mnemonicParsing="false" onAction="#loginMedico" text="MÉDICO" />
          </children>
       </VBox>
    </children>

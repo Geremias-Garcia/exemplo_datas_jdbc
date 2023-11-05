@@ -28,6 +28,8 @@ public class JDBCMedicoDAO implements MedicoDAO {
 
     private static final String FILTROESPECIALIDADENOME = "SELECT * FROM medico WHERE especialidade = ? AND nome LIKE ? || '%'";
 
+    private static final String BUSCARCPF = "SELECT * FROM medico WHERE cpf = (?)";
+
 
 
 
@@ -122,6 +124,41 @@ public class JDBCMedicoDAO implements MedicoDAO {
             while(rs.next()){
                 String nome = rs.getString("nome");
                 String cpf = rs.getString("cpf");
+                String telefone = rs.getString("telefone");
+                String email = rs.getString("email");
+
+                java.sql.Date sqlDate = rs.getDate("dataNascimento");
+                LocalDate dataNascimento = sqlDate.toLocalDate();
+
+                String genero = rs.getString("genero");
+                boolean isAtive = rs.getBoolean("isAtive");
+                double salario = rs.getDouble("salario");
+                String especialidade = rs.getString("especialidade");
+                String crm = rs.getString("crm");
+
+                medico = new Medico(id, nome, cpf, telefone, email, dataNascimento, genero, isAtive,salario,especialidade,crm);
+            }
+
+            return Resultado.sucesso("Contatos", medico);
+
+        } catch (SQLException e) {
+            return Resultado.erro(e.getMessage());
+        }
+    }
+
+    @Override
+    public Resultado buscarPorCpf(String cpf) {
+        try (Connection con = fabrica.getConnection()) {
+            PreparedStatement pstm = con.prepareStatement(BUSCARCPF);
+
+            pstm.setString(1, cpf);
+
+            ResultSet rs = pstm.executeQuery();
+
+            Medico medico = null;
+            while(rs.next()){
+                int id = rs.getInt("id");
+                String nome = rs.getString("nome");
                 String telefone = rs.getString("telefone");
                 String email = rs.getString("email");
 
@@ -257,31 +294,11 @@ public class JDBCMedicoDAO implements MedicoDAO {
         }
     }
 
-    /* 
-    public Resultado<ArrayList<Medico>> filtrarEspecialidadeENome(String especialidade, String inicio) {
-        try (Connection con = fabrica.getConnection()) {
-            PreparedStatement pstm = con.prepareStatement(FILTROESPECIALIDADENOME);
-    
-            pstm.setString(1, especialidade);  // Primeiro parâmetro: especialidade
-            pstm.setString(2, inicio);        // Segundo parâmetro: início do nome
-    
-            ResultSet rs = pstm.executeQuery();
-    
-            ArrayList<Medico> lista = new ArrayList<>();
-            while (rs.next()) {
-                // Resto do código...
-            }
-    
-            return Resultado.sucesso("Contatos", lista);
-        } catch (SQLException e) {
-            return Resultado.erro(e.getMessage());
-        }
-    }*/
     
     @Override
     public Resultado alterar(Medico medico) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'alterar'");
     }
-    
+
 }

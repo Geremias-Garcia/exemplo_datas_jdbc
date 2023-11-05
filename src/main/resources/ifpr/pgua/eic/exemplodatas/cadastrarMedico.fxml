@@ -86,7 +86,7 @@
                         </AnchorPane>
                   </content>
                 </TitledPane>
-                <TitledPane fx:id="listar" animated="false" onMouseClicked="#listar" prefHeight="365.0" prefWidth="388.0" text="Listar">
+                <TitledPane fx:id="listar" animated="false" prefHeight="365.0" prefWidth="388.0" text="Listar">
                   <content>
                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="298.0" prefWidth="376.0">
                            <children>
