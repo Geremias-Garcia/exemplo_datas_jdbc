@@ -22,6 +22,7 @@ import ifpr.pgua.eic.exemplodatas.model.daos.JDBCAgendamentoDAO;
 import ifpr.pgua.eic.exemplodatas.model.daos.LoginDAO;
 import ifpr.pgua.eic.exemplodatas.model.daos.MedicoDAO;
 import ifpr.pgua.eic.exemplodatas.model.daos.PessoaDAO;
+import ifpr.pgua.eic.exemplodatas.model.entities.Medico;
 import ifpr.pgua.eic.exemplodatas.model.entities.Pessoa;
 import ifpr.pgua.eic.exemplodatas.model.repositories.RepositorioAgendamento;
 import ifpr.pgua.eic.exemplodatas.model.repositories.RepositorioFuncionario;
@@ -52,6 +53,7 @@ public class App extends BaseAppNavigator {
     private RepositorioAgendamento repositorioAgendamento = new RepositorioAgendamento(agendamentoDAO, pessoaDAO, medicoDAO);
 
     private Pessoa pessoa;
+    private Medico medico;
 
     public static void main(String[] args) {
         launch();
@@ -90,7 +92,7 @@ public class App extends BaseAppNavigator {
 
         registraTela("TELAINICIALPACIENTE", new ScreenRegistryFXML(App.class, "telaInicialPaciente.fxml", o->new TelaInicialPaciente(repositorioMedico, pessoa, repositorioAgendamento)));
 
-        registraTela("TELAINICIALMEDICO", new ScreenRegistryFXML(App.class, "telaInicialMedico.fxml", o->new TelaInicialMedico()));
+        registraTela("TELAINICIALMEDICO", new ScreenRegistryFXML(App.class, "telaInicialMedico.fxml", o->new TelaInicialMedico(repositorioAgendamento, repositorioMedico, repositorioPessoa, medico)));
 
         registraTela("TELAAGENDAMENTOCONSULTA", new ScreenRegistryFXML(App.class, "pacienteAgendamentoConsulta.fxml", o->new PacienteAgendamentoConsulta(repositorioMedico, pessoa, repositorioAgendamento)));
     }

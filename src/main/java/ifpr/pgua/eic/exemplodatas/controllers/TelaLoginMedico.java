@@ -3,6 +3,7 @@ package ifpr.pgua.eic.exemplodatas.controllers;
 import com.github.hugoperlin.results.Resultado;
 
 import ifpr.pgua.eic.exemplodatas.App;
+import ifpr.pgua.eic.exemplodatas.model.entities.Medico;
 import ifpr.pgua.eic.exemplodatas.model.entities.Pessoa;
 import ifpr.pgua.eic.exemplodatas.model.repositories.RepositorioAgendamento;
 import ifpr.pgua.eic.exemplodatas.model.repositories.RepositorioLogin;
@@ -49,10 +50,12 @@ public class TelaLoginMedico {
             alert = new Alert(AlertType.ERROR, resultado.getMsg());
         }else{
             alert = new Alert(AlertType.INFORMATION, resultado.getMsg());
-            Resultado<Pessoa> rs = repositorioMedico.buscarPorCpf(cpf);
-            Pessoa pessoa = rs.comoSucesso().getObj();
+            Resultado<Medico> rs = repositorioMedico.buscarPorCpf(cpf);
+            Medico medico = rs.comoSucesso().getObj();
 
-            App.pushScreen("TELAINICIALMEDICO",o-> new TelaInicialMedico());
+            System.out.println(medico);
+
+            App.pushScreen("TELAINICIALMEDICO",o-> new TelaInicialMedico(repositorioAgendamento, repositorioMedico, repositorioPessoa, medico));
         }
 
         alert.showAndWait();
