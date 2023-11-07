@@ -3,6 +3,7 @@ package ifpr.pgua.eic.exemplodatas.controllers;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import ifpr.pgua.eic.exemplodatas.model.entities.Agendamento;
 import ifpr.pgua.eic.exemplodatas.model.entities.Medico;
 import ifpr.pgua.eic.exemplodatas.model.repositories.RepositorioAgendamento;
 import ifpr.pgua.eic.exemplodatas.model.repositories.RepositorioMedico;
@@ -10,11 +11,25 @@ import ifpr.pgua.eic.exemplodatas.model.repositories.RepositorioPessoa;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 
 public class TelaInicialMedico implements Initializable{
 
     @FXML
     private Label bemVindo;
+
+    @FXML
+    private TableView tbConsultas;
+
+    @FXML
+    private TableColumn<Agendamento, String> tcData;
+
+    @FXML
+    private TableColumn<Agendamento, String> tcHora;
+
+    @FXML
+    private TableColumn<Agendamento, String> tcPaciente;
     
     private RepositorioAgendamento repositorioAgendamento;
     private RepositorioMedico repositorioMedico;
