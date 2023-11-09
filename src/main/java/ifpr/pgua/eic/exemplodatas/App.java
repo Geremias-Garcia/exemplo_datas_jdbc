@@ -5,6 +5,7 @@ import ifpr.pgua.eic.exemplodatas.controllers.CadastroMedico;
 import ifpr.pgua.eic.exemplodatas.controllers.CadastroPaciente;
 import ifpr.pgua.eic.exemplodatas.controllers.ClinicaOpcoes;
 import ifpr.pgua.eic.exemplodatas.controllers.PacienteAgendamentoConsulta;
+import ifpr.pgua.eic.exemplodatas.controllers.PacienteCriandoCadastro;
 import ifpr.pgua.eic.exemplodatas.controllers.Principal;
 import ifpr.pgua.eic.exemplodatas.controllers.TelaInicialMedico;
 import ifpr.pgua.eic.exemplodatas.controllers.TelaInicialPaciente;
@@ -17,18 +18,18 @@ import ifpr.pgua.eic.exemplodatas.model.daos.FuncionarioDAO;
 import ifpr.pgua.eic.exemplodatas.model.daos.JDBCFuncionarioDAO;
 import ifpr.pgua.eic.exemplodatas.model.daos.JDBCLoginDAO;
 import ifpr.pgua.eic.exemplodatas.model.daos.JDBCMedicoDAO;
-import ifpr.pgua.eic.exemplodatas.model.daos.JDBCPessoaDAO;
+import ifpr.pgua.eic.exemplodatas.model.daos.JDBCPacienteDAO;
 import ifpr.pgua.eic.exemplodatas.model.daos.JDBCAgendamentoDAO;
 import ifpr.pgua.eic.exemplodatas.model.daos.LoginDAO;
 import ifpr.pgua.eic.exemplodatas.model.daos.MedicoDAO;
-import ifpr.pgua.eic.exemplodatas.model.daos.PessoaDAO;
+import ifpr.pgua.eic.exemplodatas.model.daos.PacienteDAO;
 import ifpr.pgua.eic.exemplodatas.model.entities.Medico;
-import ifpr.pgua.eic.exemplodatas.model.entities.Pessoa;
+import ifpr.pgua.eic.exemplodatas.model.entities.Paciente;
 import ifpr.pgua.eic.exemplodatas.model.repositories.RepositorioAgendamento;
 import ifpr.pgua.eic.exemplodatas.model.repositories.RepositorioFuncionario;
 import ifpr.pgua.eic.exemplodatas.model.repositories.RepositorioLogin;
 import ifpr.pgua.eic.exemplodatas.model.repositories.RepositorioMedico;
-import ifpr.pgua.eic.exemplodatas.model.repositories.RepositorioPessoa;
+import ifpr.pgua.eic.exemplodatas.model.repositories.RepositorioPaciente;
 import io.github.hugoperlin.navigatorfx.BaseAppNavigator;
 import io.github.hugoperlin.navigatorfx.ScreenRegistryFXML;
 
@@ -37,8 +38,8 @@ import io.github.hugoperlin.navigatorfx.ScreenRegistryFXML;
  */
 public class App extends BaseAppNavigator {
 
-    private PessoaDAO pessoaDAO = new JDBCPessoaDAO(FabricaConexoes.getInstance());
-    private RepositorioPessoa repositorioPessoa = new RepositorioPessoa(pessoaDAO);
+    private PacienteDAO pacienteDAO = new JDBCPacienteDAO(FabricaConexoes.getInstance());
+    private RepositorioPaciente repositorioPaciente = new RepositorioPaciente(pacienteDAO);
 
     private MedicoDAO medicoDAO = new JDBCMedicoDAO(FabricaConexoes.getInstance());
     private RepositorioMedico repositorioMedico = new RepositorioMedico(medicoDAO);
@@ -50,9 +51,9 @@ public class App extends BaseAppNavigator {
     private RepositorioLogin repositorioLogin = new RepositorioLogin(loginDAO);
 
     private AgendamentoDAO agendamentoDAO = new JDBCAgendamentoDAO(FabricaConexoes.getInstance());
-    private RepositorioAgendamento repositorioAgendamento = new RepositorioAgendamento(agendamentoDAO, pessoaDAO, medicoDAO);
+    private RepositorioAgendamento repositorioAgendamento = new RepositorioAgendamento(agendamentoDAO, pacienteDAO, medicoDAO);
 
-    private Pessoa pessoa;
+    private Paciente paciente;
     private Medico medico;
 
     public static void main(String[] args) {
@@ -80,21 +81,23 @@ public class App extends BaseAppNavigator {
 
         registraTela("VERIFICARCONSULTAS", new ScreenRegistryFXML(App.class, "verificarConsultas.fxml", o->new VerificarConsultas(repositorioAgendamento)));
 
-        registraTela("TELALOGINMEDICO", new ScreenRegistryFXML(App.class, "telaLoginMedico.fxml", o->new TelaLoginMedico(repositorioMedico,repositorioLogin,repositorioPessoa,repositorioAgendamento)));
+        registraTela("TELALOGINMEDICO", new ScreenRegistryFXML(App.class, "telaLoginMedico.fxml", o->new TelaLoginMedico(repositorioMedico,repositorioLogin,repositorioPaciente,repositorioAgendamento)));
 
-        registraTela("CADASTRO", new ScreenRegistryFXML(App.class, "cadastroPaciente.fxml", o->new CadastroPaciente(repositorioPessoa)));
+        registraTela("CADASTRO", new ScreenRegistryFXML(App.class, "cadastroPaciente.fxml", o->new CadastroPaciente(repositorioPaciente, repositorioLogin)));
 
         registraTela("CADASTRARFUNCIONARIO", new ScreenRegistryFXML(App.class, "cadastrarFuncionario.fxml", o->new CadastroFuncionario(repositorioFuncionario)));
 
         registraTela("CADASTRARMEDICO", new ScreenRegistryFXML(App.class, "cadastrarMedico.fxml", o->new CadastroMedico(repositorioMedico)));
 
-        registraTela("TELALOGINPACIENTE", new ScreenRegistryFXML(App.class, "telaLoginPaciente.fxml", o->new TelaLoginPaciente(repositorioMedico,repositorioLogin, repositorioPessoa, repositorioAgendamento)));
+        registraTela("TELALOGINPACIENTE", new ScreenRegistryFXML(App.class, "telaLoginPaciente.fxml", o->new TelaLoginPaciente(repositorioMedico,repositorioLogin, repositorioPaciente, repositorioAgendamento)));
 
-        registraTela("TELAINICIALPACIENTE", new ScreenRegistryFXML(App.class, "telaInicialPaciente.fxml", o->new TelaInicialPaciente(repositorioMedico, pessoa, repositorioAgendamento)));
+        registraTela("TELAINICIALPACIENTE", new ScreenRegistryFXML(App.class, "telaInicialPaciente.fxml", o->new TelaInicialPaciente(repositorioMedico, paciente, repositorioAgendamento)));
 
-        registraTela("TELAINICIALMEDICO", new ScreenRegistryFXML(App.class, "telaInicialMedico.fxml", o->new TelaInicialMedico(repositorioAgendamento, repositorioMedico, repositorioPessoa, medico)));
+        registraTela("TELAINICIALMEDICO", new ScreenRegistryFXML(App.class, "telaInicialMedico.fxml", o->new TelaInicialMedico(repositorioAgendamento, repositorioMedico, repositorioPaciente, medico)));
 
-        registraTela("TELAAGENDAMENTOCONSULTA", new ScreenRegistryFXML(App.class, "pacienteAgendamentoConsulta.fxml", o->new PacienteAgendamentoConsulta(repositorioMedico, pessoa, repositorioAgendamento)));
+        registraTela("TELAAGENDAMENTOCONSULTA", new ScreenRegistryFXML(App.class, "pacienteAgendamentoConsulta.fxml", o->new PacienteAgendamentoConsulta(repositorioMedico, paciente, repositorioAgendamento)));
+
+        registraTela("PACIENTECRIANDOCADASTRO", new ScreenRegistryFXML(App.class, "pacienteCriandoCadastro.fxml", o->new PacienteCriandoCadastro(repositorioPaciente, repositorioLogin)));
     }
 
 }

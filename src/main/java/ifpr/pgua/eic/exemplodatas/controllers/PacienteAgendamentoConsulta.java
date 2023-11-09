@@ -14,7 +14,7 @@ import com.github.hugoperlin.results.Resultado;
 import ifpr.pgua.eic.exemplodatas.App;
 import ifpr.pgua.eic.exemplodatas.model.entities.Agendamento;
 import ifpr.pgua.eic.exemplodatas.model.entities.Medico;
-import ifpr.pgua.eic.exemplodatas.model.entities.Pessoa;
+import ifpr.pgua.eic.exemplodatas.model.entities.Paciente;
 import ifpr.pgua.eic.exemplodatas.model.repositories.RepositorioAgendamento;
 import ifpr.pgua.eic.exemplodatas.model.repositories.RepositorioMedico;
 import javafx.event.ActionEvent;
@@ -51,12 +51,12 @@ public class PacienteAgendamentoConsulta implements Initializable{
 
     private RepositorioMedico repositorioMedico;
     private RepositorioAgendamento repositorioAgendamento;
-    private Pessoa pessoa;
+    private Paciente paciente;
     private Medico medico;
 
-    public PacienteAgendamentoConsulta(RepositorioMedico repositorioMedico, Pessoa pessoa, RepositorioAgendamento repositorioAgendamento){
+    public PacienteAgendamentoConsulta(RepositorioMedico repositorioMedico, Paciente paciente, RepositorioAgendamento repositorioAgendamento){
         this.repositorioMedico = repositorioMedico;
-        this.pessoa = pessoa;
+        this.paciente = paciente;
         this.repositorioAgendamento = repositorioAgendamento;
     }
 
@@ -163,7 +163,7 @@ public class PacienteAgendamentoConsulta implements Initializable{
         hora = hora+":00";
         String status = "Aguardando";
 
-        Agendamento agendamento = new Agendamento(pessoa, medico, data, hora, status);
+        Agendamento agendamento = new Agendamento(paciente, medico, data, hora, status);
 
         Resultado resultado = repositorioAgendamento.agendar(agendamento);
 

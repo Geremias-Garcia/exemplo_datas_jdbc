@@ -1,4 +1,4 @@
-CREATE TABLE pessoa (
+CREATE TABLE paciente (
     id INTEGER PRIMARY KEY,
     nome TEXT NOT NULL,
     cpf TEXT UNIQUE NOT NULL,

@@ -8,7 +8,7 @@ import ifpr.pgua.eic.exemplodatas.model.entities.Pessoa;
 import ifpr.pgua.eic.exemplodatas.model.repositories.RepositorioAgendamento;
 import ifpr.pgua.eic.exemplodatas.model.repositories.RepositorioLogin;
 import ifpr.pgua.eic.exemplodatas.model.repositories.RepositorioMedico;
-import ifpr.pgua.eic.exemplodatas.model.repositories.RepositorioPessoa;
+import ifpr.pgua.eic.exemplodatas.model.repositories.RepositorioPaciente;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -24,11 +24,11 @@ public class TelaLoginMedico {
     private TextField tfSenha;  
 
     private RepositorioLogin repositorioLogin;
-    private RepositorioPessoa repositorioPessoa;
+    private RepositorioPaciente repositorioPessoa;
     private RepositorioMedico repositorioMedico;
     private RepositorioAgendamento repositorioAgendamento;
 
-    public TelaLoginMedico(RepositorioMedico repositorioMedico, RepositorioLogin repositorioLogin, RepositorioPessoa repositorioPessoa, RepositorioAgendamento repositorioAgendamento){
+    public TelaLoginMedico(RepositorioMedico repositorioMedico, RepositorioLogin repositorioLogin, RepositorioPaciente repositorioPessoa, RepositorioAgendamento repositorioAgendamento){
         this.repositorioMedico = repositorioMedico;
         this.repositorioLogin = repositorioLogin;
         this.repositorioPessoa = repositorioPessoa;

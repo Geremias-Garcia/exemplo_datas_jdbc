@@ -7,7 +7,7 @@ public class Agendamento {
     private int id;
     private int id_paciente;
     private int id_medico;
-    private Pessoa pessoa;
+    private Paciente paciente;
     private Medico medico;
     private LocalDate data;
     private String hora;
@@ -22,17 +22,17 @@ public class Agendamento {
         this.status = status;
     }
 
-    public Agendamento(int id, Pessoa pessoa, Medico medico, LocalDate data, String hora, String status) {
+    public Agendamento(int id, Paciente paciente, Medico medico, LocalDate data, String hora, String status) {
         this.id = id;
-        this.pessoa = pessoa;
+        this.paciente = paciente;
         this.medico = medico;
         this.data = data;
         this.hora = hora;
         this.status = status;
     }
 
-    public Agendamento(Pessoa pessoa, Medico medico, LocalDate data, String hora, String status) {
-        this.pessoa = pessoa;
+    public Agendamento(Paciente paciente, Medico medico, LocalDate data, String hora, String status) {
+        this.paciente = paciente;
         this.medico = medico;
         this.data = data;
         this.hora = hora;
@@ -63,12 +63,12 @@ public class Agendamento {
         this.id_medico = id_medico;
     }
 
-    public Pessoa getPessoa() {
-        return pessoa;
+    public Paciente getPaciente() {
+        return paciente;
     }
 
-    public void setPessoa(Pessoa pessoa) {
-        this.pessoa = pessoa;
+    public void setPaciente(Paciente paciente) {
+        this.paciente = paciente;
     }
 
     public Medico getMedico() {
@@ -107,7 +107,7 @@ public class Agendamento {
     public String toString() {
         return "Agendamento{" +
             "id=" + id +
-            ", Paciente=" + pessoa +
+            ", Paciente=" + paciente +
             ", Medico=" + medico +
             ", data=" + data +
             ", hora='" + hora + '\'' +

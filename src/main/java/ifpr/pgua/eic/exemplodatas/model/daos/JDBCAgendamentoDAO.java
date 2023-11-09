@@ -37,7 +37,7 @@ public class JDBCAgendamentoDAO implements AgendamentoDAO{
 
             java.sql.Date sqlDate = java.sql.Date.valueOf(agendamento.getData());
             
-            pstm.setInt(1, agendamento.getPessoa().getId());
+            pstm.setInt(1, agendamento.getPaciente().getId());
             pstm.setInt(2, agendamento.getMedico().getId());
             pstm.setDate(3, sqlDate);
             pstm.setString(4, agendamento.getHora());
@@ -48,7 +48,7 @@ public class JDBCAgendamentoDAO implements AgendamentoDAO{
             if(ret == 1){
                 int id = DBUtils.getLastId(pstm);
 
-                return Resultado.sucesso("Pessoa cadastrada", agendamento);
+                return Resultado.sucesso("Paciente cadastrada", agendamento);
             }
             return Resultado.erro("Erro desconhecido!");
 

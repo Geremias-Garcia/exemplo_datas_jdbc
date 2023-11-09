@@ -8,22 +8,22 @@ import com.github.hugoperlin.results.Resultado;
 
 import ifpr.pgua.eic.exemplodatas.model.daos.AgendamentoDAO;
 import ifpr.pgua.eic.exemplodatas.model.daos.MedicoDAO;
-import ifpr.pgua.eic.exemplodatas.model.daos.PessoaDAO;
+import ifpr.pgua.eic.exemplodatas.model.daos.PacienteDAO;
 import ifpr.pgua.eic.exemplodatas.model.entities.Agendamento;
 import ifpr.pgua.eic.exemplodatas.model.entities.Medico;
-import ifpr.pgua.eic.exemplodatas.model.entities.Pessoa;
+import ifpr.pgua.eic.exemplodatas.model.entities.Paciente;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 
 public class RepositorioAgendamento {
 
     private AgendamentoDAO dao;
-    private PessoaDAO pessoaDAO;
+    private PacienteDAO pacienteDAO;
     private MedicoDAO medicoDAO;
 
-    public RepositorioAgendamento(AgendamentoDAO dao,PessoaDAO pessoaDAO, MedicoDAO medicoDAO){
+    public RepositorioAgendamento(AgendamentoDAO dao,PacienteDAO pacienteDAO, MedicoDAO medicoDAO){
         this.dao = dao;
-        this.pessoaDAO = pessoaDAO;
+        this.pacienteDAO = pacienteDAO;
         this.medicoDAO = medicoDAO;
     }
 
@@ -53,13 +53,13 @@ public class RepositorioAgendamento {
                 Medico medico = (Medico)r1.comoSucesso().getObj();
                 agendamentos.setMedico(medico);
 
-                Resultado r2 = pessoaDAO.buscarPorId(agendamentos.getId_paciente());
+                Resultado r2 = pacienteDAO.buscarPorId(agendamentos.getId_paciente());
                 if(r1.foiErro()){
                     return r2;
                 }
 
-                Pessoa pessoa = (Pessoa)r2.comoSucesso().getObj();
-                agendamentos.setPessoa(pessoa);
+                Paciente paciente = (Paciente)r2.comoSucesso().getObj();
+                agendamentos.setPaciente(paciente);
 
                 agendamento.add(agendamentos);
             }
@@ -108,13 +108,13 @@ public class RepositorioAgendamento {
                 Medico medico = (Medico)r1.comoSucesso().getObj();
                 agendamentos.setMedico(medico);
 
-                Resultado r2 = pessoaDAO.buscarPorId(agendamentos.getId_paciente());
+                Resultado r2 = pacienteDAO.buscarPorId(agendamentos.getId_paciente());
                 if(r1.foiErro()){
                     return r2;
                 }
 
-                Pessoa pessoa = (Pessoa)r2.comoSucesso().getObj();
-                agendamentos.setPessoa(pessoa);
+                Paciente paciente = (Paciente)r2.comoSucesso().getObj();
+                agendamentos.setPaciente(paciente);
 
                 agendamento.add(agendamentos);
             }

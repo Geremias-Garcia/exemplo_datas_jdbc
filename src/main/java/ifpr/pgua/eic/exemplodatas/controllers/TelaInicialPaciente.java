@@ -9,7 +9,7 @@ import com.github.hugoperlin.results.Resultado;
 import ifpr.pgua.eic.exemplodatas.App;
 import ifpr.pgua.eic.exemplodatas.model.entities.Agendamento;
 import ifpr.pgua.eic.exemplodatas.model.entities.Medico;
-import ifpr.pgua.eic.exemplodatas.model.entities.Pessoa;
+import ifpr.pgua.eic.exemplodatas.model.entities.Paciente;
 import ifpr.pgua.eic.exemplodatas.model.repositories.RepositorioAgendamento;
 import ifpr.pgua.eic.exemplodatas.model.repositories.RepositorioMedico;
 import javafx.beans.property.SimpleStringProperty;
@@ -40,13 +40,13 @@ public class TelaInicialPaciente implements Initializable{
     @FXML
     private TableColumn<Agendamento, String> tcStatus;
     
-    private Pessoa pessoa;
+    private Paciente paciente;
     private RepositorioMedico repositorioMedico;
     private RepositorioAgendamento repositorioAgendamento;
 
-    public TelaInicialPaciente(RepositorioMedico repositorioMedico, Pessoa pessoa, RepositorioAgendamento repositorioAgendamento){
+    public TelaInicialPaciente(RepositorioMedico repositorioMedico, Paciente paciente, RepositorioAgendamento repositorioAgendamento){
         this.repositorioMedico = repositorioMedico;
-        this.pessoa = pessoa;
+        this.paciente = paciente;
         this.repositorioAgendamento = repositorioAgendamento;
     }
 
@@ -91,7 +91,7 @@ public class TelaInicialPaciente implements Initializable{
     }
 
     public void loadConsultas() {
-        Resultado rs = repositorioAgendamento.buscarIdPaciente(pessoa.getId());
+        Resultado rs = repositorioAgendamento.buscarIdPaciente(paciente.getId());
 
         if (rs.foiErro()) {
             Alert alert = new Alert(AlertType.ERROR, rs.getMsg());
@@ -105,17 +105,17 @@ public class TelaInicialPaciente implements Initializable{
     }
 
     public void textoLabel(){
-        if(pessoa.getGenero().equals("Masculino")){
-            bemVindo.setText("Bem vindo, "+pessoa.getNome());
+        if(paciente.getGenero().equals("Masculino")){
+            bemVindo.setText("Bem vindo, "+paciente.getNome());
         }else{
-            bemVindo.setText("Bem vinda, "+pessoa.getNome());
+            bemVindo.setText("Bem vinda, "+paciente.getNome());
         }
         
     }
 
     @FXML
     private void agendamento(){
-        App.pushScreen("TELAAGENDAMENTOCONSULTA",o-> new PacienteAgendamentoConsulta(repositorioMedico, pessoa, repositorioAgendamento));
+        App.pushScreen("TELAAGENDAMENTOCONSULTA",o-> new PacienteAgendamentoConsulta(repositorioMedico, paciente, repositorioAgendamento));
     }
 
 }

@@ -7,7 +7,7 @@ import ifpr.pgua.eic.exemplodatas.model.entities.Agendamento;
 import ifpr.pgua.eic.exemplodatas.model.entities.Medico;
 import ifpr.pgua.eic.exemplodatas.model.repositories.RepositorioAgendamento;
 import ifpr.pgua.eic.exemplodatas.model.repositories.RepositorioMedico;
-import ifpr.pgua.eic.exemplodatas.model.repositories.RepositorioPessoa;
+import ifpr.pgua.eic.exemplodatas.model.repositories.RepositorioPaciente;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
@@ -33,10 +33,10 @@ public class TelaInicialMedico implements Initializable{
     
     private RepositorioAgendamento repositorioAgendamento;
     private RepositorioMedico repositorioMedico;
-    private RepositorioPessoa repositorioPessoa;
+    private RepositorioPaciente repositorioPessoa;
     private Medico medico;
 
-    public TelaInicialMedico(RepositorioAgendamento repositorioAgendamento, RepositorioMedico repositorioMedico, RepositorioPessoa repositorioPessoa, Medico medico){
+    public TelaInicialMedico(RepositorioAgendamento repositorioAgendamento, RepositorioMedico repositorioMedico, RepositorioPaciente repositorioPessoa, Medico medico){
         this.repositorioAgendamento = repositorioAgendamento;
         this.repositorioMedico = repositorioMedico;
         this.repositorioPessoa = repositorioPessoa;

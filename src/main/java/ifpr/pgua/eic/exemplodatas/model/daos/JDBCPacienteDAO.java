@@ -11,38 +11,39 @@ import java.util.ArrayList;
 import com.github.hugoperlin.results.Resultado;
 
 import ifpr.pgua.eic.exemplodatas.model.entities.Medico;
-import ifpr.pgua.eic.exemplodatas.model.entities.Pessoa;
+import ifpr.pgua.eic.exemplodatas.model.entities.Paciente;
+import ifpr.pgua.eic.exemplodatas.model.entities.Paciente;
 import ifpr.pgua.eic.exemplodatas.utils.DBUtils;
 
-public class JDBCPessoaDAO implements PessoaDAO{
+public class JDBCPacienteDAO implements PacienteDAO{
 
-    private static final String INSERTSQL = "INSERT INTO pessoa (nome, cpf, telefone, email, dataNascimento, genero, isAtive)\r\n" + //
+    private static final String INSERTSQL = "INSERT INTO paciente (nome, cpf, telefone, email, dataNascimento, genero, isAtive)\r\n" + //
             "VALUES (?, ?, ?, ?, ?, ?, ?);";
-    private static final String SELECTSQL = "SELECT * FROM pessoa";
-    private static final String SELECTPORID = "SELECT * FROM pessoa WHERE id = ?";
-    private static final String FILTRO = "SELECT * FROM pessoa WHERE nome LIKE ? || '%'";
-    private static final String BUSCARCPF = "SELECT * FROM pessoa WHERE cpf = (?)";
+    private static final String SELECTSQL = "SELECT * FROM paciente";
+    private static final String SELECTPORID = "SELECT * FROM paciente WHERE id = ?";
+    private static final String FILTRO = "SELECT * FROM paciente WHERE nome LIKE ? || '%'";
+    private static final String BUSCARCPF = "SELECT * FROM paciente WHERE cpf = (?)";
 
     private FabricaConexoes fabrica;
 
-    public JDBCPessoaDAO(FabricaConexoes fabrica) {
+    public JDBCPacienteDAO(FabricaConexoes fabrica) {
         this.fabrica = fabrica;
     }
 
     @Override
-    public Resultado criar(Pessoa pessoa) {
+    public Resultado criar(Paciente paciente) {
         try (Connection con = fabrica.getConnection()) {
             PreparedStatement pstm = con.prepareStatement(INSERTSQL, Statement.RETURN_GENERATED_KEYS);
 
-            java.sql.Date sqlDate = java.sql.Date.valueOf(pessoa.getDataNascimento());
+            java.sql.Date sqlDate = java.sql.Date.valueOf(paciente.getDataNascimento());
             
-            pstm.setString(1, pessoa.getNome());
-            pstm.setString(2, pessoa.getCpf());
-            pstm.setString(3, pessoa.getTelefone());
-            pstm.setString(4, pessoa.getEmail());
+            pstm.setString(1, paciente.getNome());
+            pstm.setString(2, paciente.getCpf());
+            pstm.setString(3, paciente.getTelefone());
+            pstm.setString(4, paciente.getEmail());
             pstm.setDate(5, sqlDate);
-            pstm.setString(6, pessoa.getGenero());
-            pstm.setBoolean(7, pessoa.isAtive());
+            pstm.setString(6, paciente.getGenero());
+            pstm.setBoolean(7, paciente.isAtive());
             
 
             int ret = pstm.executeUpdate();
@@ -50,7 +51,7 @@ public class JDBCPessoaDAO implements PessoaDAO{
             if(ret == 1){
                 int id = DBUtils.getLastId(pstm);
 
-                return Resultado.sucesso("Pessoa cadastrada", pessoa);
+                return Resultado.sucesso("Paciente cadastrada", paciente);
             }
             return Resultado.erro("Erro desconhecido!");
 
@@ -68,7 +69,7 @@ public class JDBCPessoaDAO implements PessoaDAO{
 
             ResultSet rs = pstm.executeQuery();
 
-            ArrayList<Pessoa> lista = new ArrayList<>();
+            ArrayList<Paciente> lista = new ArrayList<>();
             while(rs.next()){
                 int id = rs.getInt("id");
                 String nome = rs.getString("nome");
@@ -82,9 +83,9 @@ public class JDBCPessoaDAO implements PessoaDAO{
                 String genero = rs.getString("genero");
                 boolean isAtive = rs.getBoolean("isAtive");
 
-                Pessoa pessoa = new Pessoa(id, nome, cpf, telefone, email, dataNascimento, genero, isAtive);
+                Paciente paciente = new Paciente(id, nome, cpf, telefone, email, dataNascimento, genero, isAtive);
 
-                lista.add(pessoa);
+                lista.add(paciente);
             }
 
             return Resultado.sucesso("Categorias listadas", lista);
@@ -96,7 +97,7 @@ public class JDBCPessoaDAO implements PessoaDAO{
     }
 
     @Override
-    public Resultado<Pessoa> buscarPorId(int id) {
+    public Resultado<Paciente> buscarPorId(int id) {
         try (Connection con = fabrica.getConnection()) {
             PreparedStatement pstm = con.prepareStatement(SELECTPORID);
 
@@ -104,7 +105,7 @@ public class JDBCPessoaDAO implements PessoaDAO{
 
             ResultSet rs = pstm.executeQuery();
 
-            Pessoa pessoa = null;
+            Paciente paciente = null;
             while(rs.next()){
                 String nome = rs.getString("nome");
                 String cpf = rs.getString("cpf");
@@ -118,10 +119,10 @@ public class JDBCPessoaDAO implements PessoaDAO{
                 boolean isAtive = rs.getBoolean("isAtive");
                 
 
-                pessoa = new Pessoa(id, nome, cpf, telefone, email, dataNascimento, genero, isAtive);
+                paciente = new Paciente(id, nome, cpf, telefone, email, dataNascimento, genero, isAtive);
             }
 
-            return Resultado.sucesso("Contatos", pessoa);
+            return Resultado.sucesso("Contatos", paciente);
 
         } catch (SQLException e) {
             return Resultado.erro(e.getMessage());
@@ -130,7 +131,7 @@ public class JDBCPessoaDAO implements PessoaDAO{
 
 
     @Override
-    public Resultado<ArrayList<Pessoa>> filtrarNome(String inicio) {
+    public Resultado<ArrayList<Paciente>> filtrarNome(String inicio) {
 
         try (Connection con = fabrica.getConnection()) {
             PreparedStatement pstm = con.prepareStatement(FILTRO);
@@ -139,7 +140,7 @@ public class JDBCPessoaDAO implements PessoaDAO{
 
             ResultSet rs = pstm.executeQuery();
 
-            ArrayList<Pessoa> lista = new ArrayList<>();
+            ArrayList<Paciente> lista = new ArrayList<>();
             while(rs.next()){
                 int id = rs.getInt("id");
                 String nome = rs.getString("nome");
@@ -153,9 +154,9 @@ public class JDBCPessoaDAO implements PessoaDAO{
                 String genero = rs.getString("genero");
                 boolean isAtive = rs.getBoolean("isAtive");
 
-                Pessoa pessoa = new Pessoa(id, nome, cpf, telefone, email, dataNascimento, genero, isAtive);
+                Paciente paciente = new Paciente(id, nome, cpf, telefone, email, dataNascimento, genero, isAtive);
 
-                lista.add(pessoa);
+                lista.add(paciente);
             }
 
             return Resultado.sucesso("Contatos", lista);
@@ -176,7 +177,7 @@ public class JDBCPessoaDAO implements PessoaDAO{
 
             ResultSet rs = pstm.executeQuery();
 
-            Pessoa pessoa = null;
+            Paciente paciente = null;
             while(rs.next()){
                 int id = rs.getInt("id");
                 String nome = rs.getString("nome");
@@ -189,10 +190,10 @@ public class JDBCPessoaDAO implements PessoaDAO{
                 String genero = rs.getString("genero");
                 boolean isAtive = rs.getBoolean("isAtive");
 
-                pessoa = new Pessoa(id, nome, cpf, telefone, email, dataNascimento, genero, isAtive);
+                paciente = new Paciente(id, nome, cpf, telefone, email, dataNascimento, genero, isAtive);
             }
 
-            return Resultado.sucesso("Contatos", pessoa);
+            return Resultado.sucesso("Contatos", paciente);
 
         } catch (SQLException e) {
             return Resultado.erro(e.getMessage());
@@ -200,7 +201,7 @@ public class JDBCPessoaDAO implements PessoaDAO{
     }
     
     @Override
-    public Resultado alterar(Pessoa pessoa) {
+    public Resultado alterar(Paciente paciente) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'alterar'");
     }

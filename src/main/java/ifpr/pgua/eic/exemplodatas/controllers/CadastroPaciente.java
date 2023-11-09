@@ -12,9 +12,9 @@ import java.util.ResourceBundle;
 import com.github.hugoperlin.results.Resultado;
 
 import ifpr.pgua.eic.exemplodatas.App;
-import ifpr.pgua.eic.exemplodatas.model.entities.Medico;
-import ifpr.pgua.eic.exemplodatas.model.entities.Pessoa;
-import ifpr.pgua.eic.exemplodatas.model.repositories.RepositorioPessoa;
+import ifpr.pgua.eic.exemplodatas.model.entities.Paciente;
+import ifpr.pgua.eic.exemplodatas.model.repositories.RepositorioLogin;
+import ifpr.pgua.eic.exemplodatas.model.repositories.RepositorioPaciente;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -35,7 +35,7 @@ import javafx.util.Callback;
 public class CadastroPaciente implements Initializable{
 
     @FXML
-    private ListView<Pessoa> lstPacientes;
+    private ListView<Paciente> lstPacientes;
 
     @FXML
     private Accordion accordion;
@@ -70,10 +70,12 @@ public class CadastroPaciente implements Initializable{
     @FXML
     private TextArea detalhes;
 
-    private RepositorioPessoa repositorioPessoa;
+    private RepositorioPaciente repositorioPaciente;
+    private RepositorioLogin repositorioLogin;
 
-    public CadastroPaciente(RepositorioPessoa repositorioPessoa){
-        this.repositorioPessoa = repositorioPessoa;
+    public CadastroPaciente(RepositorioPaciente repositorioPaciente, RepositorioLogin repositorioLogin){
+        this.repositorioPaciente = repositorioPaciente;
+        this.repositorioLogin = repositorioLogin;
     }
 
     @Override
@@ -82,15 +84,15 @@ public class CadastroPaciente implements Initializable{
 
         lstPacientes.getItems().clear();
 
-        lstPacientes.setCellFactory(new Callback<ListView<Pessoa>, ListCell<Pessoa>>() {
+        lstPacientes.setCellFactory(new Callback<ListView<Paciente>, ListCell<Paciente>>() {
         @Override
-        public ListCell<Pessoa> call(ListView<Pessoa> listView) {
-            return new ListCell<Pessoa>() {
+        public ListCell<Paciente> call(ListView<Paciente> listView) {
+            return new ListCell<Paciente>() {
                 @Override
-                protected void updateItem(Pessoa pessoa, boolean empty) {
-                    super.updateItem(pessoa, empty);
-                    if (pessoa != null) {
-                        setText(pessoa.getNome()); 
+                protected void updateItem(Paciente paciente, boolean empty) {
+                    super.updateItem(paciente, empty);
+                    if (paciente != null) {
+                        setText(paciente.getNome()); 
                     } else {
                         setText(null);
                     }
@@ -99,35 +101,35 @@ public class CadastroPaciente implements Initializable{
             }
         });
 
-        Resultado resultado = repositorioPessoa.listar();
+        Resultado resultado = repositorioPaciente.listar();
 
         if(resultado.foiErro()){
             Alert alert = new Alert(AlertType.ERROR, resultado.getMsg());
             alert.showAndWait();
         }else{
             List lista = (List)resultado.comoSucesso().getObj();
-            Collections.sort(lista, Comparator.comparing(Pessoa::getNome));
+            Collections.sort(lista, Comparator.comparing(Paciente::getNome));
             lstPacientes.getItems().addAll(lista);
         }
 
-        //criarPessoa();
+        //criarPaciente();
     }
 
     @FXML
     private void listar(MouseEvent evento){
-        Pessoa pessoa = lstPacientes.getSelectionModel().getSelectedItem();
-        if (pessoa != null) {
-            // Agora você pode acessar as propriedades de pessoa
-            System.out.println(pessoa.getId());
+        Paciente paciente = lstPacientes.getSelectionModel().getSelectedItem();
+        if (paciente != null) {
+            // Agora você pode acessar as propriedades de paciente
+            System.out.println(paciente.getId());
             System.out.println("ok");
             detalhes.clear();
-            detalhes.appendText("ID: " + pessoa.getId() + "\n");
-            detalhes.appendText("Nome: " + pessoa.getNome() + "\n");
-            detalhes.appendText("CPF: " + pessoa.getCpf() + "\n");
-            detalhes.appendText("Telefone: " + pessoa.getTelefone() + "\n\n");
-            detalhes.appendText("Email: " + pessoa.getEmail() + "\n");
-            detalhes.appendText("Data de nascimento: " + pessoa.getDataNascimento() + "\n");
-            boolean cadastro = pessoa.isAtive();
+            detalhes.appendText("ID: " + paciente.getId() + "\n");
+            detalhes.appendText("Nome: " + paciente.getNome() + "\n");
+            detalhes.appendText("CPF: " + paciente.getCpf() + "\n");
+            detalhes.appendText("Telefone: " + paciente.getTelefone() + "\n\n");
+            detalhes.appendText("Email: " + paciente.getEmail() + "\n");
+            detalhes.appendText("Data de nascimento: " + paciente.getDataNascimento() + "\n");
+            boolean cadastro = paciente.isAtive();
             if (cadastro == true) {
                 detalhes.appendText("Situação do cadastro: Ativo");
             } else {
@@ -137,35 +139,35 @@ public class CadastroPaciente implements Initializable{
          
     }
 
-    private void criarPessoa() {
+    private void criarPaciente() {
 
-        ArrayList<Pessoa> lista = new ArrayList<>();
+        ArrayList<Paciente> lista = new ArrayList<>();
         /* 
-        lista.add(new Pessoa("Mariana Oliveira", "12345678903", "555-555-5560", "mariana@example.com", criarData(), "Feminino", true));
-        lista.add(new Pessoa("Carlos Lima", "98765432111", "555-555-5561", "carlos@example.com", criarData(), "Masculino", true));
-        lista.add(new Pessoa("Luisa Pereira", "55555555557", "555-555-5562", "luisa@example.com", criarData(), "Feminino", true));
-        lista.add(new Pessoa("Fábio Silva", "11111111113", "555-555-5563", "fabio@example.com", criarData(), "Masculino", true));
-        lista.add(new Pessoa("Juliana Souza", "99999999997", "555-555-5564", "juliana@example.com", criarData(), "Feminino", true));
-        lista.add(new Pessoa("Rafael Santos", "12345678904", "555-555-5565", "rafael@example.com", criarData(), "Masculino", true));
-        lista.add(new Pessoa("Renata Oliveira", "98765432112", "555-555-5566", "renata@example.com", criarData(), "Feminino", true));
-        lista.add(new Pessoa("Gustavo Lima", "55555555558", "555-555-5567", "gustavo@example.com", criarData(), "Masculino", true));
-        lista.add(new Pessoa("Vitória Silva", "11111111114", "555-555-5568", "vitoria@example.com", criarData(), "Feminino", true));
-        lista.add(new Pessoa("Maurício Souza", "99999999996", "555-555-5569", "mauricio@example.com", criarData(), "Masculino", true));
+        lista.add(new Paciente("Mariana Oliveira", "12345678903", "555-555-5560", "mariana@example.com", criarData(), "Feminino", true));
+        lista.add(new Paciente("Carlos Lima", "98765432111", "555-555-5561", "carlos@example.com", criarData(), "Masculino", true));
+        lista.add(new Paciente("Luisa Pereira", "55555555557", "555-555-5562", "luisa@example.com", criarData(), "Feminino", true));
+        lista.add(new Paciente("Fábio Silva", "11111111113", "555-555-5563", "fabio@example.com", criarData(), "Masculino", true));
+        lista.add(new Paciente("Juliana Souza", "99999999997", "555-555-5564", "juliana@example.com", criarData(), "Feminino", true));
+        lista.add(new Paciente("Rafael Santos", "12345678904", "555-555-5565", "rafael@example.com", criarData(), "Masculino", true));
+        lista.add(new Paciente("Renata Oliveira", "98765432112", "555-555-5566", "renata@example.com", criarData(), "Feminino", true));
+        lista.add(new Paciente("Gustavo Lima", "55555555558", "555-555-5567", "gustavo@example.com", criarData(), "Masculino", true));
+        lista.add(new Paciente("Vitória Silva", "11111111114", "555-555-5568", "vitoria@example.com", criarData(), "Feminino", true));
+        lista.add(new Paciente("Maurício Souza", "99999999996", "555-555-5569", "mauricio@example.com", criarData(), "Masculino", true));
         */
         /* 
-        lista.add(new Pessoa("Paula Santos", "12345678905", "555-555-5560", "paula@example.com", criarData(), "Feminino", true));
-        lista.add(new Pessoa("Antônio Oliveira", "98765432115", "555-555-5561", "antonio@example.com", criarData(), "Masculino", true));
-        lista.add(new Pessoa("Larissa Pereira", "55555555565", "555-555-5562", "larissa@example.com", criarData(), "Feminino", true));
-        lista.add(new Pessoa("Mateus Silva", "11111111115", "555-555-5563", "mateus@example.com", criarData(), "Masculino", true));
-        lista.add(new Pessoa("Mônica Souza", "99999999995", "555-555-5564", "monica@example.com", criarData(), "Feminino", true));
-        lista.add(new Pessoa("Bruno Lima", "12345678906", "555-555-5565", "bruno@example.com", criarData(), "Masculino", true));
-        lista.add(new Pessoa("Clara Oliveira", "98765432116", "555-555-5566", "clara@example.com", criarData(), "Feminino", true));
-        lista.add(new Pessoa("Fernando Santos", "55555555566", "555-555-5567", "fernando@example.com", criarData(), "Masculino", true));
-        lista.add(new Pessoa("Valentina Silva", "11111111116", "555-555-5568", "valentina@example.com", criarData(), "Feminino", true));
-        lista.add(new Pessoa("Ricardo Souza", "99999999994", "555-555-5569", "ricardo@example.com", criarData(), "Masculino", true));
+        lista.add(new Paciente("Paula Santos", "12345678905", "555-555-5560", "paula@example.com", criarData(), "Feminino", true));
+        lista.add(new Paciente("Antônio Oliveira", "98765432115", "555-555-5561", "antonio@example.com", criarData(), "Masculino", true));
+        lista.add(new Paciente("Larissa Pereira", "55555555565", "555-555-5562", "larissa@example.com", criarData(), "Feminino", true));
+        lista.add(new Paciente("Mateus Silva", "11111111115", "555-555-5563", "mateus@example.com", criarData(), "Masculino", true));
+        lista.add(new Paciente("Mônica Souza", "99999999995", "555-555-5564", "monica@example.com", criarData(), "Feminino", true));
+        lista.add(new Paciente("Bruno Lima", "12345678906", "555-555-5565", "bruno@example.com", criarData(), "Masculino", true));
+        lista.add(new Paciente("Clara Oliveira", "98765432116", "555-555-5566", "clara@example.com", criarData(), "Feminino", true));
+        lista.add(new Paciente("Fernando Santos", "55555555566", "555-555-5567", "fernando@example.com", criarData(), "Masculino", true));
+        lista.add(new Paciente("Valentina Silva", "11111111116", "555-555-5568", "valentina@example.com", criarData(), "Feminino", true));
+        lista.add(new Paciente("Ricardo Souza", "99999999994", "555-555-5569", "ricardo@example.com", criarData(), "Masculino", true));
         */
-        for (Pessoa pessoa : lista) {
-            repositorioPessoa.criar(pessoa);
+        for (Paciente paciente : lista) {
+            repositorioPaciente.criar(paciente);
         }
         
 
@@ -186,9 +188,10 @@ public class CadastroPaciente implements Initializable{
         LocalDate data = date.getValue();
         String genero = (String) cbGenero.getValue();
 
-        Pessoa pessoa = new Pessoa(nome, cpf, telefone, email, data, genero, true);
+        Paciente paciente = new Paciente(nome, cpf, telefone, email, data, genero, true);
 
-        Resultado resultado = repositorioPessoa.criar(pessoa);
+        Resultado resultado = repositorioPaciente.criar(paciente);
+        Resultado rs = repositorioLogin.criarLogin(cpf, "ok");
 
         Alert alert;
         
@@ -198,13 +201,19 @@ public class CadastroPaciente implements Initializable{
             alert = new Alert(AlertType.INFORMATION, resultado.getMsg());
         }
 
-        atualizar();
         alert.showAndWait();
+
+        if(rs.foiErro()){
+            alert = new Alert(AlertType.ERROR, rs.getMsg());
+            alert.showAndWait();
+        }
+
+        atualizar();
     }
 
     @FXML
     private void atualizar(){
-        Resultado<ArrayList<Pessoa>> resultado = repositorioPessoa.listar();
+        Resultado<ArrayList<Paciente>> resultado = repositorioPaciente.listar();
 
         if(resultado.foiSucesso()){
             atualizarTabela(resultado.comoSucesso().getObj());
@@ -213,18 +222,18 @@ public class CadastroPaciente implements Initializable{
 
     @FXML
     private void mostrarDetalhes(MouseEvent evento){
-        Pessoa pessoa = lstPacientes.getSelectionModel().getSelectedItem();
-        System.out.println(pessoa.getId());
+        Paciente paciente = lstPacientes.getSelectionModel().getSelectedItem();
+        System.out.println(paciente.getId());
        
-        if(pessoa != null){
+        if(paciente != null){
             detalhes.clear();
-            detalhes.appendText("ID: "+pessoa.getId()+"\n");
-            detalhes.appendText("Nome: "+pessoa.getNome()+"\n");
-            detalhes.appendText("CPF: "+pessoa.getCpf()+"\n");
-            detalhes.appendText("Telefone: "+pessoa.getTelefone()+"\n\n");
-            detalhes.appendText("Email: "+pessoa.getEmail()+"\n");
-            detalhes.appendText("Data de nascimento: "+pessoa.getDataNascimento()+"\n");
-            boolean cadastro = pessoa.isAtive();
+            detalhes.appendText("ID: "+paciente.getId()+"\n");
+            detalhes.appendText("Nome: "+paciente.getNome()+"\n");
+            detalhes.appendText("CPF: "+paciente.getCpf()+"\n");
+            detalhes.appendText("Telefone: "+paciente.getTelefone()+"\n\n");
+            detalhes.appendText("Email: "+paciente.getEmail()+"\n");
+            detalhes.appendText("Data de nascimento: "+paciente.getDataNascimento()+"\n");
+            boolean cadastro = paciente.isAtive();
             if(cadastro==true){
                 detalhes.appendText("Situação do cadastro: Ativo");
             }
@@ -238,21 +247,21 @@ public class CadastroPaciente implements Initializable{
     private void filtrar(KeyEvent evt){
         if(!tfFiltro.getText().isBlank() || !tfFiltro.getText().isEmpty()){
             
-            Resultado<ArrayList<Pessoa>> resultado = repositorioPessoa.filtrarNome(tfFiltro.getText());
+            Resultado<ArrayList<Paciente>> resultado = repositorioPaciente.filtrarNome(tfFiltro.getText());
 
             if(resultado.foiSucesso()){
                 atualizarTabela(resultado.comoSucesso().getObj());
             }
         }else{
-           Resultado<ArrayList<Pessoa>> resultado = repositorioPessoa.listar();
+           Resultado<ArrayList<Paciente>> resultado = repositorioPaciente.listar();
 
            atualizarTabela(resultado.comoSucesso().getObj());
         }
     }
 
-    private void atualizarTabela(List<Pessoa> pessoa){
+    private void atualizarTabela(List<Paciente> paciente){
         lstPacientes.getItems().clear();
-        lstPacientes.getItems().addAll(pessoa);
+        lstPacientes.getItems().addAll(paciente);
     }
     
     @FXML

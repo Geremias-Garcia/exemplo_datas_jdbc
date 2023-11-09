@@ -4,20 +4,20 @@ import java.util.ArrayList;
 
 import com.github.hugoperlin.results.Resultado;
 
-import ifpr.pgua.eic.exemplodatas.model.daos.PessoaDAO;
-import ifpr.pgua.eic.exemplodatas.model.entities.Pessoa;
+import ifpr.pgua.eic.exemplodatas.model.daos.PacienteDAO;
+import ifpr.pgua.eic.exemplodatas.model.entities.Paciente;
 
-public class RepositorioPessoa {
+public class RepositorioPaciente {
     
-    private PessoaDAO dao;
+    private PacienteDAO dao;
 
-    public RepositorioPessoa(PessoaDAO dao){
+    public RepositorioPaciente(PacienteDAO dao){
         this.dao = dao;
     }
 
-    public Resultado criar(Pessoa pessoa){
+    public Resultado criar(Paciente paciente){
 
-        return dao.criar(pessoa);
+        return dao.criar(paciente);
     }
 
     public Resultado listar(){
@@ -28,7 +28,7 @@ public class RepositorioPessoa {
         return dao.buscarPorCpf(cpf);
     }
 
-    public Resultado<ArrayList<Pessoa>> filtrarNome(String inicio) {
+    public Resultado<ArrayList<Paciente>> filtrarNome(String inicio) {
         return dao.filtrarNome(inicio);
     }
 

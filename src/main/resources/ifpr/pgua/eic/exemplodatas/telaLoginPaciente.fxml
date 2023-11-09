@@ -17,15 +17,20 @@
   </columnConstraints>
   <rowConstraints>
     <RowConstraints maxHeight="125.4" minHeight="10.0" prefHeight="83.3999855041504" vgrow="SOMETIMES" />
-    <RowConstraints maxHeight="234.20001449584962" minHeight="10.0" prefHeight="81.8000144958496" vgrow="SOMETIMES" />
-    <RowConstraints maxHeight="246.00002136230466" minHeight="10.0" prefHeight="218.80003967285154" vgrow="SOMETIMES" />
+    <RowConstraints maxHeight="234.20001449584962" minHeight="10.0" prefHeight="114.60001220703126" vgrow="SOMETIMES" />
+    <RowConstraints maxHeight="246.00002136230466" minHeight="10.0" prefHeight="196.99998779296877" vgrow="SOMETIMES" />
   </rowConstraints>
    <children>
-      <VBox prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+      <VBox prefHeight="86.0" prefWidth="339.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
          <children>
             <TextField fx:id="tfCpf" promptText="CPF" />
             <TextField fx:id="tfSenha" promptText="SENHA" />
-            <Button mnemonicParsing="false" onAction="#login" text="Entrar" />
+            <HBox alignment="CENTER" prefHeight="53.0" prefWidth="339.0" spacing="40.0">
+               <children>
+                  <Button mnemonicParsing="false" onAction="#login" text="Entrar" />
+                  <Button mnemonicParsing="false" onAction="#telaCadastro" text="Criar cadastro" />
+               </children>
+            </HBox>
          </children>
       </VBox>
       <HBox alignment="BOTTOM_CENTER" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1">
@@ -33,5 +38,6 @@
             <Label text="LOGIN" />
          </children>
       </HBox>
+      <VBox prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
    </children>
 </GridPane>

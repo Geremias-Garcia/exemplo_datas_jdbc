@@ -56,7 +56,7 @@ public class VerificarConsultas implements Initializable{
             if (empty || agendamento == null) {
                 setText(null);
             } else {
-                setText(agendamento.getPessoa().getNome());
+                setText(agendamento.getPaciente().getNome());
             }
         }
     });
@@ -85,7 +85,7 @@ public class VerificarConsultas implements Initializable{
         if(agendamento != null){
             taDetalhes.clear();
             taDetalhes.appendText("ID: "+agendamento.getId()+"\n");
-            taDetalhes.appendText("Nome do paciente: "+agendamento.getPessoa().getNome()+"\n");
+            taDetalhes.appendText("Nome do paciente: "+agendamento.getPaciente().getNome()+"\n");
             taDetalhes.appendText("Nome do Médico: "+agendamento.getMedico().getNome()+"\n");
             taDetalhes.appendText("Data: "+agendamento.getData()+"\n");
             taDetalhes.appendText("Hora: "+agendamento.getHora());
