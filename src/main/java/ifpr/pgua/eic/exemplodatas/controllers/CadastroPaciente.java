@@ -82,6 +82,11 @@ public class CadastroPaciente implements Initializable{
     public void initialize(URL arg0, ResourceBundle arg1) {
         cbGenero.getItems().addAll("Masculino", "Feminino");
 
+        listar();
+        //criarPaciente();
+    }
+
+    private void listar(){
         lstPacientes.getItems().clear();
 
         lstPacientes.setCellFactory(new Callback<ListView<Paciente>, ListCell<Paciente>>() {
@@ -110,31 +115,6 @@ public class CadastroPaciente implements Initializable{
             List lista = (List)resultado.comoSucesso().getObj();
             Collections.sort(lista, Comparator.comparing(Paciente::getNome));
             lstPacientes.getItems().addAll(lista);
-        }
-
-        //criarPaciente();
-    }
-
-    @FXML
-    private void listar(MouseEvent evento){
-        Paciente paciente = lstPacientes.getSelectionModel().getSelectedItem();
-        if (paciente != null) {
-            // Agora você pode acessar as propriedades de paciente
-            System.out.println(paciente.getId());
-            System.out.println("ok");
-            detalhes.clear();
-            detalhes.appendText("ID: " + paciente.getId() + "\n");
-            detalhes.appendText("Nome: " + paciente.getNome() + "\n");
-            detalhes.appendText("CPF: " + paciente.getCpf() + "\n");
-            detalhes.appendText("Telefone: " + paciente.getTelefone() + "\n\n");
-            detalhes.appendText("Email: " + paciente.getEmail() + "\n");
-            detalhes.appendText("Data de nascimento: " + paciente.getDataNascimento() + "\n");
-            boolean cadastro = paciente.isAtive();
-            if (cadastro == true) {
-                detalhes.appendText("Situação do cadastro: Ativo");
-            } else {
-                detalhes.appendText("Situação do cadastro: Inativo");
-            }
         }
          
     }
@@ -253,9 +233,7 @@ public class CadastroPaciente implements Initializable{
                 atualizarTabela(resultado.comoSucesso().getObj());
             }
         }else{
-           Resultado<ArrayList<Paciente>> resultado = repositorioPaciente.listar();
-
-           atualizarTabela(resultado.comoSucesso().getObj());
+            listar();
         }
     }
 
