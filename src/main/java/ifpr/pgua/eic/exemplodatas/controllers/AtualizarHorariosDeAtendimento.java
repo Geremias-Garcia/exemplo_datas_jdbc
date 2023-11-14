@@ -7,19 +7,27 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import javax.naming.spi.DirStateFactory.Result;
+
 import com.github.hugoperlin.results.Resultado;
 
+import ifpr.pgua.eic.exemplodatas.model.entities.DisponibilidadeMedico;
 import ifpr.pgua.eic.exemplodatas.model.entities.Medico;
+import ifpr.pgua.eic.exemplodatas.model.repositories.RepositorioDisponibilidadeMedico;
 import ifpr.pgua.eic.exemplodatas.model.repositories.RepositorioMedico;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
+import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
 import javafx.util.Callback;
 
 public class AtualizarHorariosDeAtendimento implements Initializable {
@@ -36,16 +44,29 @@ public class AtualizarHorariosDeAtendimento implements Initializable {
     @FXML
     private ComboBox<String> cbPeriodo;
 
-    private RepositorioMedico repositorioMedico;
+    @FXML
+    private Button confirmaMedico;
 
-    public AtualizarHorariosDeAtendimento(RepositorioMedico repositorioMedico){
+    private RepositorioDisponibilidadeMedico repositorioHorariosIndisponiveis;
+    private RepositorioMedico repositorioMedico;
+    private Medico medico;
+
+    public AtualizarHorariosDeAtendimento(RepositorioMedico repositorioMedico, RepositorioDisponibilidadeMedico repositorioHorariosIndisponiveis){
         this.repositorioMedico = repositorioMedico;
+        this.repositorioHorariosIndisponiveis = repositorioHorariosIndisponiveis;
     }
 
     @Override
     public void initialize(URL arg0, ResourceBundle arg1) {
         cbDia.getItems().addAll("Segunda-feira", "Terça-feira","Quarta-feira","Quinta-feira","Sexta-feira","Sábado");
         cbPeriodo.getItems().addAll("Manhã","Tarde","Dia todo");
+        
+        lstMedico.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+
+        cbDia.setDisable(true);
+        cbPeriodo.setDisable(true);
+        confirmaMedico.setDisable(true);
+        
         listar();
     }
     
@@ -99,5 +120,51 @@ public class AtualizarHorariosDeAtendimento implements Initializable {
     private void atualizarTabela(List<Medico> medico){
         lstMedico.getItems().clear();
         lstMedico.getItems().addAll(medico);
+    }
+
+    @FXML
+    private void registrarIndisponibilidade(ActionEvent event){
+        List<Medico> selecionados = lstMedico.getSelectionModel().getSelectedItems();
+        String dia = cbDia.getValue();
+        String periodo = cbPeriodo.getValue();
+
+        Resultado resultado = null;
+        DisponibilidadeMedico horariosIndisponiveis = null;
+        for(Medico medico: selecionados){
+            horariosIndisponiveis = new DisponibilidadeMedico(medico, dia, periodo);
+            resultado = repositorioHorariosIndisponiveis.registrarHorarios(horariosIndisponiveis);
+        }
+
+        Alert alert = new Alert(AlertType.INFORMATION, resultado.getMsg());
+        
+        alert.showAndWait();
+
+    }
+
+    @FXML
+    private void verificarMedico(MouseEvent evento){
+        medico = lstMedico.getSelectionModel().getSelectedItem();
+
+        if (medico != null) {
+            cbDia.setDisable(false);
+        }
+    }
+
+    @FXML
+    private void dia(ActionEvent event){
+        String dia = cbDia.getValue();
+
+        if(!dia.isEmpty() || !dia.isBlank()){
+            cbPeriodo.setDisable(false);
+        }
+    }
+
+    @FXML
+    private void periodo(ActionEvent event){
+        String periodo = cbDia.getValue();
+
+        if(!periodo.isEmpty() || !periodo.isBlank()){
+            confirmaMedico.setDisable(false);
+        }
     }
 }

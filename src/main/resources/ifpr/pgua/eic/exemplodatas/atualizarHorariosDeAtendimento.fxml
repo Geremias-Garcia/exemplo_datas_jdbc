@@ -55,14 +55,14 @@
                                           <VBox alignment="BOTTOM_CENTER" prefHeight="220.0" prefWidth="323.0" spacing="5.0">
                                              <children>
                                                 <TextField fx:id="tfFiltro" onKeyTyped="#filtrar" prefHeight="26.0" prefWidth="195.0" promptText="BUSCAR POR NOME" />
-                                                <ListView fx:id="lstMedico" prefHeight="193.0" prefWidth="323.0" />
+                                                <ListView fx:id="lstMedico" onMouseClicked="#verificarMedico" prefHeight="193.0" prefWidth="323.0" />
                                              </children>
                                           </VBox>
                                           <VBox alignment="CENTER" prefHeight="220.0" prefWidth="174.0" spacing="20.0">
                                              <children>
-                                                <ComboBox fx:id="cbDia" prefWidth="150.0" promptText="DIA DA SEMANA" />
-                                                <ComboBox fx:id="cbPeriodo" prefWidth="150.0" promptText="PERÍODO" />
-                                                <Button mnemonicParsing="false" text="Confirmar" />
+                                                <ComboBox fx:id="cbDia" onAction="#dia" prefWidth="150.0" promptText="DIA DA SEMANA" />
+                                                <ComboBox fx:id="cbPeriodo" onAction="#periodo" prefWidth="150.0" promptText="PERÍODO" />
+                                                <Button fx:id="confirmaMedico" mnemonicParsing="false" onAction="#registrarIndisponibilidade" text="Confirmar" />
                                              </children>
                                           </VBox>
                                        </children>

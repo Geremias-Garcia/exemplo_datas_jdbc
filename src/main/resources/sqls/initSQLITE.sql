@@ -61,6 +61,13 @@ CREATE TABLE agendamento (
     FOREIGN KEY (id_medico) REFERENCES medico(id)
 );
 
+CREATE TABLE horarios_indisponiveis (
+    id INTEGER PRIMARY KEY,
+    id_medico INTEGER,
+    dia_semana TEXT,
+    periodo TEXT,
+    FOREIGN KEY (id_medico) REFERENCES medico(id)
+);
 
 
 

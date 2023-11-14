@@ -17,7 +17,9 @@ import ifpr.pgua.eic.exemplodatas.controllers.VerificarConsultas;
 import ifpr.pgua.eic.exemplodatas.model.daos.AgendamentoDAO;
 import ifpr.pgua.eic.exemplodatas.model.daos.FabricaConexoes;
 import ifpr.pgua.eic.exemplodatas.model.daos.FuncionarioDAO;
+import ifpr.pgua.eic.exemplodatas.model.daos.DisponibilidadeMedicoDAO;
 import ifpr.pgua.eic.exemplodatas.model.daos.JDBCFuncionarioDAO;
+import ifpr.pgua.eic.exemplodatas.model.daos.JDBCDisponibilidadeMedicoDAO;
 import ifpr.pgua.eic.exemplodatas.model.daos.JDBCLoginDAO;
 import ifpr.pgua.eic.exemplodatas.model.daos.JDBCMedicoDAO;
 import ifpr.pgua.eic.exemplodatas.model.daos.JDBCPacienteDAO;
@@ -29,6 +31,7 @@ import ifpr.pgua.eic.exemplodatas.model.entities.Medico;
 import ifpr.pgua.eic.exemplodatas.model.entities.Paciente;
 import ifpr.pgua.eic.exemplodatas.model.repositories.RepositorioAgendamento;
 import ifpr.pgua.eic.exemplodatas.model.repositories.RepositorioFuncionario;
+import ifpr.pgua.eic.exemplodatas.model.repositories.RepositorioDisponibilidadeMedico;
 import ifpr.pgua.eic.exemplodatas.model.repositories.RepositorioLogin;
 import ifpr.pgua.eic.exemplodatas.model.repositories.RepositorioMedico;
 import ifpr.pgua.eic.exemplodatas.model.repositories.RepositorioPaciente;
@@ -54,6 +57,10 @@ public class App extends BaseAppNavigator {
 
     private AgendamentoDAO agendamentoDAO = new JDBCAgendamentoDAO(FabricaConexoes.getInstance());
     private RepositorioAgendamento repositorioAgendamento = new RepositorioAgendamento(agendamentoDAO, pacienteDAO, medicoDAO);
+
+    private DisponibilidadeMedicoDAO horariosIndisponiveisDAO = new JDBCDisponibilidadeMedicoDAO(FabricaConexoes.getInstance());
+    private RepositorioDisponibilidadeMedico repositorioHorariosIndisponiveis = new RepositorioDisponibilidadeMedico(horariosIndisponiveisDAO);
+
 
     private Paciente paciente;
     private Medico medico;
@@ -91,7 +98,7 @@ public class App extends BaseAppNavigator {
 
         registraTela("CADASTRARMEDICO", new ScreenRegistryFXML(App.class, "cadastrarMedico.fxml", o->new CadastroMedico(repositorioMedico)));
 
-        registraTela("ATUALIZARHORARIOSDEATENDIMENTO", new ScreenRegistryFXML(App.class, "atualizarHorariosDeAtendimento.fxml", o->new AtualizarHorariosDeAtendimento(repositorioMedico)));
+        registraTela("ATUALIZARHORARIOSDEATENDIMENTO", new ScreenRegistryFXML(App.class, "atualizarHorariosDeAtendimento.fxml", o->new AtualizarHorariosDeAtendimento(repositorioMedico, repositorioHorariosIndisponiveis)));
 
         registraTela("TELALOGINPACIENTE", new ScreenRegistryFXML(App.class, "telaLoginPaciente.fxml", o->new TelaLoginPaciente(repositorioMedico,repositorioLogin, repositorioPaciente, repositorioAgendamento)));
 

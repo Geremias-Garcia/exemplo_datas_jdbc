@@ -48,7 +48,7 @@ public class JDBCAgendamentoDAO implements AgendamentoDAO{
             if(ret == 1){
                 int id = DBUtils.getLastId(pstm);
 
-                return Resultado.sucesso("Paciente cadastrada", agendamento);
+                return Resultado.sucesso("Agendamento concluído", agendamento);
             }
             return Resultado.erro("Erro desconhecido!");
 

@@ -16,6 +16,7 @@ import ifpr.pgua.eic.exemplodatas.model.entities.Agendamento;
 import ifpr.pgua.eic.exemplodatas.model.entities.Medico;
 import ifpr.pgua.eic.exemplodatas.model.entities.Paciente;
 import ifpr.pgua.eic.exemplodatas.model.repositories.RepositorioAgendamento;
+import ifpr.pgua.eic.exemplodatas.model.repositories.RepositorioDisponibilidadeMedico;
 import ifpr.pgua.eic.exemplodatas.model.repositories.RepositorioMedico;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -51,6 +52,7 @@ public class PacienteAgendamentoConsulta implements Initializable{
 
     private RepositorioMedico repositorioMedico;
     private RepositorioAgendamento repositorioAgendamento;
+    private RepositorioDisponibilidadeMedico repositorioDisponibilidadeMedico;
     private Paciente paciente;
     private Medico medico;
 
@@ -143,13 +145,6 @@ public class PacienteAgendamentoConsulta implements Initializable{
             }
         }
     }
-
-    @FXML
-    private void pegarId(MouseEvent evento){
-        medico = lstMedico.getSelectionModel().getSelectedItem();
-
-        date.setDisable(false);
-    }
     
     private void atualizarTabela(List<Medico> medico){
         lstMedico.getItems().clear();
@@ -179,25 +174,44 @@ public class PacienteAgendamentoConsulta implements Initializable{
     }
 
     @FXML
-    void consultar(ActionEvent event) {
-        Resultado<ArrayList<String>> resultado = repositorioAgendamento.verificarDisponibilidadeHorario(medico.getId(), date.getValue());
+    private void pegarId(MouseEvent evento){
+        medico = lstMedico.getSelectionModel().getSelectedItem();
+        System.out.println(medico);
 
-        if (resultado.foiSucesso()) {
-            List<String> horariosIndisponiveis = resultado.comoSucesso().getObj();
-            System.out.println(horariosIndisponiveis);
+        atualizarListaHorarios();
+        date.setDisable(false);
+    }
 
-            List<String> horariosDisponiveis = new ArrayList<>(Arrays.asList(
-                "8:00", "8:30", "9:00", "9:30", "10:00",
-                "10:30", "11:00", "11:30", "12:00", "12:30",
-                "13:00", "13:30", "14:00", "14:30", "15:00",
-                "15:30", "16:00", "16:30", "17:00"
-            ));
-
-            horariosDisponiveis.removeAll(horariosIndisponiveis);
-            
-            cbHorarios.getItems().setAll(horariosDisponiveis);
-            cbHorarios.setPromptText("Selecione um horário");
+    private void atualizarListaHorarios() {
+        if (medico != null && date.getValue() != null) {
+            Resultado<ArrayList<String>> resultado = repositorioAgendamento.verificarDisponibilidadeHorario(medico.getId(), date.getValue());
+    
+            if (resultado.foiSucesso()) {
+                List<String> horariosIndisponiveis = resultado.comoSucesso().getObj();
+                System.out.println(horariosIndisponiveis);
+    
+                List<String> horariosDisponiveis = new ArrayList<>(Arrays.asList(
+                    "8:00", "8:30", "9:00", "9:30", "10:00",
+                    "10:30", "11:00", "11:30", "12:00", "12:30",
+                    "13:00", "13:30", "14:00", "14:30", "15:00",
+                    "15:30", "16:00", "16:30", "17:00"
+                ));
+    
+                horariosDisponiveis.removeAll(horariosIndisponiveis);
+    
+                cbHorarios.getItems().setAll(horariosDisponiveis);
+                cbHorarios.setPromptText("Selecione um horário");
+            }
+    
+            cbHorarios.setDisable(false);
         }
+    }
+    
+
+    @FXML
+    void consultar(ActionEvent event) {
+
+        atualizarListaHorarios();
 
         cbHorarios.setDisable(false);
     }   
