@@ -1,9 +1,11 @@
 package ifpr.pgua.eic.exemplodatas;
 
+import ifpr.pgua.eic.exemplodatas.controllers.AtualizarHorariosDeAtendimento;
 import ifpr.pgua.eic.exemplodatas.controllers.CadastroFuncionario;
 import ifpr.pgua.eic.exemplodatas.controllers.CadastroMedico;
 import ifpr.pgua.eic.exemplodatas.controllers.CadastroPaciente;
 import ifpr.pgua.eic.exemplodatas.controllers.ClinicaOpcoes;
+import ifpr.pgua.eic.exemplodatas.controllers.DadosPessoaisPaciente;
 import ifpr.pgua.eic.exemplodatas.controllers.PacienteAgendamentoConsulta;
 import ifpr.pgua.eic.exemplodatas.controllers.PacienteCriandoCadastro;
 import ifpr.pgua.eic.exemplodatas.controllers.Principal;
@@ -89,9 +91,13 @@ public class App extends BaseAppNavigator {
 
         registraTela("CADASTRARMEDICO", new ScreenRegistryFXML(App.class, "cadastrarMedico.fxml", o->new CadastroMedico(repositorioMedico)));
 
+        registraTela("ATUALIZARHORARIOSDEATENDIMENTO", new ScreenRegistryFXML(App.class, "atualizarHorariosDeAtendimento.fxml", o->new AtualizarHorariosDeAtendimento(repositorioMedico)));
+
         registraTela("TELALOGINPACIENTE", new ScreenRegistryFXML(App.class, "telaLoginPaciente.fxml", o->new TelaLoginPaciente(repositorioMedico,repositorioLogin, repositorioPaciente, repositorioAgendamento)));
 
-        registraTela("TELAINICIALPACIENTE", new ScreenRegistryFXML(App.class, "telaInicialPaciente.fxml", o->new TelaInicialPaciente(repositorioMedico, paciente, repositorioAgendamento)));
+        registraTela("TELAINICIALPACIENTE", new ScreenRegistryFXML(App.class, "telaInicialPaciente.fxml", o->new TelaInicialPaciente(repositorioPaciente, repositorioLogin, repositorioMedico, paciente, repositorioAgendamento)));
+
+        registraTela("DADOSPESSOAISPACIENTE", new ScreenRegistryFXML(App.class, "dadosPessoaisPaciente.fxml", o->new DadosPessoaisPaciente(repositorioLogin, repositorioPaciente, paciente)));
 
         registraTela("TELAINICIALMEDICO", new ScreenRegistryFXML(App.class, "telaInicialMedico.fxml", o->new TelaInicialMedico(repositorioAgendamento, repositorioMedico, repositorioPaciente, medico)));
 
@@ -99,5 +105,4 @@ public class App extends BaseAppNavigator {
 
         registraTela("PACIENTECRIANDOCADASTRO", new ScreenRegistryFXML(App.class, "pacienteCriandoCadastro.fxml", o->new PacienteCriandoCadastro(repositorioPaciente, repositorioLogin)));
     }
-
 }

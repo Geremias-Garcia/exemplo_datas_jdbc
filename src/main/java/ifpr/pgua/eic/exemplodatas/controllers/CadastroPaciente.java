@@ -112,11 +112,28 @@ public class CadastroPaciente implements Initializable{
             Alert alert = new Alert(AlertType.ERROR, resultado.getMsg());
             alert.showAndWait();
         }else{
-            List lista = (List)resultado.comoSucesso().getObj();
+            List<Paciente> lista = (List)resultado.comoSucesso().getObj();
             Collections.sort(lista, Comparator.comparing(Paciente::getNome));
             lstPacientes.getItems().addAll(lista);
+
+            for (Paciente paciente : lista) {
+                criarLoginParaPaciente(paciente.getCpf());
+            }
         }
-         
+    }
+
+             
+    private void criarLoginParaPaciente(String cpf) {
+        String senhaPadrao = "ok";
+    
+        Resultado rs = repositorioLogin.criarLogin(cpf, senhaPadrao);
+    
+        if (rs.foiErro()) {
+            Alert alert = new Alert(AlertType.ERROR, rs.getMsg());
+            alert.showAndWait();
+        } else {
+            System.out.println("Login criado para o CPF: " + cpf);
+        }
     }
 
     private void criarPaciente() {

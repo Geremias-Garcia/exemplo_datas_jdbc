@@ -59,6 +59,13 @@
               </columns>
             </TableView>
          </children></VBox>
-      <HBox alignment="BOTTOM_CENTER" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" />
+      <HBox alignment="BOTTOM_CENTER" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1">
+         <children>
+            <HBox alignment="CENTER_RIGHT" prefHeight="51.0" prefWidth="226.0">
+               <children>
+                  <Button mnemonicParsing="false" onAction="#configuracoes" text="Dados Pessoais" />
+               </children>
+            </HBox>
+         </children></HBox>
    </children>
 </GridPane>

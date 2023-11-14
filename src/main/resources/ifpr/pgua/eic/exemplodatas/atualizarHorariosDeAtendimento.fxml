@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Accordion?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.TitledPane?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ifpr.pgua.eic.exemplodatas.controllers.AtualizarHorariosDeAtendimento">
+  <columnConstraints>
+    <ColumnConstraints hgrow="SOMETIMES" maxWidth="188.0" minWidth="3.199981689453125" prefWidth="4.0" />
+    <ColumnConstraints hgrow="SOMETIMES" maxWidth="546.6" minWidth="10.0" prefWidth="546.6" />
+      <ColumnConstraints hgrow="SOMETIMES" maxWidth="144.199951171875" minWidth="0.0" prefWidth="0.0" />
+  </columnConstraints>
+  <rowConstraints>
+    <RowConstraints maxHeight="127.79999389648438" minHeight="1.400003099441534" prefHeight="19.999991798400877" vgrow="SOMETIMES" />
+    <RowConstraints maxHeight="333.6" minHeight="10.0" prefHeight="304.8000082015991" vgrow="SOMETIMES" />
+    <RowConstraints maxHeight="75.79996337890623" minHeight="10.0" prefHeight="65.80001220703127" vgrow="SOMETIMES" />
+  </rowConstraints>
+   <children>
+      <VBox prefHeight="316.0" prefWidth="547.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+         <children>
+            <Accordion>
+              <panes>
+                <TitledPane animated="false" prefHeight="314.0" prefWidth="547.0" text="Organizar individualmente">
+                  <content>
+                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                           <children>
+                              <VBox layoutX="1.0" layoutY="1.0" prefHeight="256.0" prefWidth="542.0">
+                                 <children>
+                                    <HBox alignment="BOTTOM_LEFT" prefHeight="34.0" prefWidth="542.0">
+                                       <children>
+                                          <Label text="Selecione o(s) médico(s)">
+                                             <padding>
+                                                <Insets bottom="10.0" left="100.0" />
+                                             </padding>
+                                             <font>
+                                                <Font name="System Bold" size="14.0" />
+                                             </font>
+                                          </Label>
+                                       </children>
+                                    </HBox>
+                                    <HBox alignment="CENTER" prefHeight="220.0" prefWidth="542.0" spacing="10.0">
+                                       <children>
+                                          <VBox alignment="BOTTOM_CENTER" prefHeight="220.0" prefWidth="323.0" spacing="5.0">
+                                             <children>
+                                                <TextField fx:id="tfFiltro" onKeyTyped="#filtrar" prefHeight="26.0" prefWidth="195.0" promptText="BUSCAR POR NOME" />
+                                                <ListView fx:id="lstMedico" prefHeight="193.0" prefWidth="323.0" />
+                                             </children>
+                                          </VBox>
+                                          <VBox alignment="CENTER" prefHeight="220.0" prefWidth="174.0" spacing="20.0">
+                                             <children>
+                                                <ComboBox fx:id="cbDia" prefWidth="150.0" promptText="DIA DA SEMANA" />
+                                                <ComboBox fx:id="cbPeriodo" prefWidth="150.0" promptText="PERÍODO" />
+                                                <Button mnemonicParsing="false" text="Confirmar" />
+                                             </children>
+                                          </VBox>
+                                       </children>
+                                    </HBox>
+                                 </children>
+                              </VBox>
+                           </children>
+                        </AnchorPane>
+                  </content>
+                </TitledPane>
+                <TitledPane animated="false" prefHeight="314.0" prefWidth="547.0" text="Organizar por especialidade">
+                  <content>
+                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                  </content>
+                </TitledPane>
+              </panes>
+            </Accordion>
+         </children>
+      </VBox>
+   </children>
+</GridPane>

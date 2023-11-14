@@ -17,6 +17,8 @@ public class JDBCLoginDAO implements LoginDAO{
     private static final String CRIARLOGIN = "INSERT INTO loginPaciente(cpf,senha)  VALUES (?,?)";
     private static final String VALIDARPACIENTE = "SELECT * FROM loginPaciente WHERE cpf = (?)";
     private static final String VALIDARMEDICO = "SELECT * FROM loginMedico WHERE cpf = (?)";
+    private static final String ALTERARSENHA = "UPDATE loginPaciente SET senha = ? WHERE cpf = ?";
+    private static final String ALTERARCPF = "UPDATE loginPaciente SET cpf = ? WHERE cpf = ?";
 
     private FabricaConexoes fabrica;
 
@@ -98,5 +100,50 @@ public class JDBCLoginDAO implements LoginDAO{
             return Resultado.erro(e.getMessage());
         }
     }
-    
+
+    @Override
+    public Resultado alterarSenha(String cpf, String senha) {
+        try (Connection con = fabrica.getConnection()) {
+                PreparedStatement pstm = con.prepareStatement(ALTERARSENHA, Statement.RETURN_GENERATED_KEYS);
+                
+                pstm.setString(1, senha);
+                pstm.setString(2, cpf);
+
+                int ret = pstm.executeUpdate();
+
+                if(ret == 1){
+                    int id = DBUtils.getLastId(pstm);
+
+                    return Resultado.sucesso("Senha alterada", id);
+                }
+                return Resultado.erro("Erro desconhecido!");
+
+
+        } catch (SQLException e) {
+                return Resultado.erro(e.getMessage());
+        }    
+    }
+
+    @Override
+    public Resultado alterarCpf(String cpfAntigo, String cpfNovo) {
+        try (Connection con = fabrica.getConnection()) {
+                PreparedStatement pstm = con.prepareStatement(ALTERARCPF, Statement.RETURN_GENERATED_KEYS);
+                
+                pstm.setString(1, cpfNovo);
+                pstm.setString(2, cpfAntigo);
+
+                int ret = pstm.executeUpdate();
+
+                if(ret == 1){
+                    int id = DBUtils.getLastId(pstm);
+
+                    return Resultado.sucesso("Seu novo CPF foi alterado para o login", id);
+                }
+                return Resultado.erro("Erro desconhecido!");
+
+
+        } catch (SQLException e) {
+                return Resultado.erro(e.getMessage());
+        }
+    }
 }

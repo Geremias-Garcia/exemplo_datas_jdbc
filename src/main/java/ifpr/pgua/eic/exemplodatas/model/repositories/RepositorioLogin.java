@@ -25,4 +25,12 @@ public class RepositorioLogin {
     public Resultado validarLoginMedico(String cpf, String senha){
         return dao.validarLoginMedico(cpf,senha);
     }
+
+    public Resultado alterarSenha(String cpf, String senha){
+        return dao.alterarSenha(cpf, senha);
+    }
+
+    public Resultado alterarCpf(String cpfAntigo, String cpfNovo){
+        return dao.alterarCpf(cpfAntigo, cpfNovo);
+    }
 }

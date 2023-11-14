@@ -16,8 +16,8 @@ public interface PacienteDAO {
 
     Resultado<ArrayList<Paciente>> filtrarNome(String inicio);
 
-    Resultado buscarPorCpf(String cpf);
+    Resultado<Paciente> buscarPorCpf(String cpf);
 
-    Resultado alterar(Paciente paciente);
+    Resultado alterarDados(Paciente paciente);
 
 }

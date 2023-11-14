@@ -8,6 +8,7 @@ import com.github.hugoperlin.results.Resultado;
 
 import ifpr.pgua.eic.exemplodatas.App;
 import ifpr.pgua.eic.exemplodatas.model.repositories.RepositorioAgendamento;
+import ifpr.pgua.eic.exemplodatas.model.repositories.RepositorioMedico;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.fxml.FXML;
@@ -27,6 +28,7 @@ public class ClinicaOpcoes implements Initializable{
     private Timeline timeline;
 
     private RepositorioAgendamento repositorioAgendamento;
+    private RepositorioMedico repositorioMedico;
 
     public ClinicaOpcoes(RepositorioAgendamento repositorioAgendamento){
         this.repositorioAgendamento = repositorioAgendamento;
@@ -83,6 +85,9 @@ public class ClinicaOpcoes implements Initializable{
             }
         }
     }
-    
-    
+
+    @FXML
+    private void telaHorariosDeAtendimento(){
+        App.pushScreen("ATUALIZARHORARIOSDEATENDIMENTO");
+    }
 }

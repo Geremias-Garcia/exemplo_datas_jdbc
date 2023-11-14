@@ -26,6 +26,7 @@
             <VBox prefHeight="262.0" prefWidth="236.0" spacing="20.0">
                <children>
                   <Button fx:id="consultasAgendadas" mnemonicParsing="false" onAction="#verificarConsultas" text="Verificar consultas agendadas" />
+                  <Button mnemonicParsing="false" onAction="#telaHorariosDeAtendimento" text="Atualizar horários de atendimento" />
                </children></VBox>
          </children>
       </HBox>

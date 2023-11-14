@@ -52,7 +52,7 @@ public class TelaLoginPaciente {
             Resultado<Paciente> rs = repositorioPaciente.buscarPorCpf(cpf);
             Paciente paciente = rs.comoSucesso().getObj();
 
-            App.pushScreen("TELAINICIALPACIENTE",o-> new TelaInicialPaciente(repositorioMedico, paciente, repositorioAgendamento));
+            App.pushScreen("TELAINICIALPACIENTE",o-> new TelaInicialPaciente(repositorioPaciente, repositorioLogin ,repositorioMedico, paciente, repositorioAgendamento));
         }
 
         alert.showAndWait();

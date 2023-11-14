@@ -17,12 +17,13 @@ import ifpr.pgua.eic.exemplodatas.utils.DBUtils;
 
 public class JDBCPacienteDAO implements PacienteDAO{
 
-    private static final String INSERTSQL = "INSERT INTO paciente (nome, cpf, telefone, email, dataNascimento, genero, isAtive)\r\n" + //
-            "VALUES (?, ?, ?, ?, ?, ?, ?);";
+    private static final String INSERTSQL = "INSERT INTO paciente (nome, cpf, telefone, email, dataNascimento, genero, isAtive) VALUES (?, ?, ?, ?, ?, ?, ?);";
+    private static final String ALTERARDADOS = "UPDATE paciente SET nome=?, cpf=?, telefone=?, email=?, dataNascimento=?, genero=?, isAtive=? WHERE id = ?";
     private static final String SELECTSQL = "SELECT * FROM paciente";
     private static final String SELECTPORID = "SELECT * FROM paciente WHERE id = ?";
     private static final String FILTRO = "SELECT * FROM paciente WHERE nome LIKE ? || '%'";
     private static final String BUSCARCPF = "SELECT * FROM paciente WHERE cpf = (?)";
+
 
     private FabricaConexoes fabrica;
 
@@ -52,6 +53,36 @@ public class JDBCPacienteDAO implements PacienteDAO{
                 int id = DBUtils.getLastId(pstm);
 
                 return Resultado.sucesso("Paciente cadastrada", paciente);
+            }
+            return Resultado.erro("Erro desconhecido!");
+
+
+        } catch (SQLException e) {
+            return Resultado.erro(e.getMessage());
+        }
+    }
+
+    @Override
+    public Resultado alterarDados(Paciente paciente) {
+        try (Connection con = fabrica.getConnection()) {
+            PreparedStatement pstm = con.prepareStatement(ALTERARDADOS, Statement.RETURN_GENERATED_KEYS);
+
+            java.sql.Date sqlDate = java.sql.Date.valueOf(paciente.getDataNascimento());
+            
+            pstm.setString(1, paciente.getNome());
+            pstm.setString(2, paciente.getCpf());
+            pstm.setString(3, paciente.getTelefone());
+            pstm.setString(4, paciente.getEmail());
+            pstm.setDate(5, sqlDate);
+            pstm.setString(6, paciente.getGenero());
+            pstm.setBoolean(7, paciente.isAtive());
+            pstm.setInt(8, paciente.getId());
+            
+
+            int ret = pstm.executeUpdate();
+
+            if(ret == 1){
+                return Resultado.sucesso("Cadastro alterado", paciente);
             }
             return Resultado.erro("Erro desconhecido!");
 
@@ -168,7 +199,7 @@ public class JDBCPacienteDAO implements PacienteDAO{
     }
 
     @Override
-    public Resultado buscarPorCpf(String cpf) {
+    public Resultado<Paciente> buscarPorCpf(String cpf) {
 
         try (Connection con = fabrica.getConnection()) {
             PreparedStatement pstm = con.prepareStatement(BUSCARCPF);
@@ -193,18 +224,14 @@ public class JDBCPacienteDAO implements PacienteDAO{
                 paciente = new Paciente(id, nome, cpf, telefone, email, dataNascimento, genero, isAtive);
             }
 
-            return Resultado.sucesso("Contatos", paciente);
+            if(paciente == null){
+                return Resultado.sucesso("CPF ALTERADO", paciente);
+            }else{
+                return Resultado.sucesso("CPF JA CADASTRADO", paciente);
+            }
 
         } catch (SQLException e) {
             return Resultado.erro(e.getMessage());
         }
-    }
-    
-    @Override
-    public Resultado alterar(Paciente paciente) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'alterar'");
-    }
-
-    
+    }    
 }
