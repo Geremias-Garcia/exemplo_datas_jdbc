@@ -263,5 +263,20 @@ public class CadastroPaciente implements Initializable{
     void voltar(ActionEvent event) {
         App.popScreen();
     }
+
+    @FXML
+    private void limpar(ActionEvent event){
+        tfNome.clear();
+        tfCpf.clear();
+        tfTelefone.clear();
+        tfEmail.clear();
+        tfFiltro.clear();
+
+        cbGenero.getSelectionModel().clearSelection();
+
+        date.setValue(null);
+
+        detalhes.clear();
+    }
     
 }

@@ -168,7 +168,9 @@ public class CadastroMedico implements Initializable {
         double salario = Double.parseDouble(salarioString);
 
         Medico medico = new Medico(nome, cpf, telefone, email, data, genero, true, salario, especialidade, crm);
+        
         Resultado resultado = repositorioMedico.criar(medico);
+        Resultado rs = repositorioLogin.criarLoginMedico(cpf, "ok");
 
         Alert alert;
         if(resultado.foiErro()){
@@ -177,6 +179,10 @@ public class CadastroMedico implements Initializable {
             alert = new Alert(AlertType.INFORMATION, resultado.getMsg());
         }
 
+        if(rs.foiErro()){
+            alert = new Alert(AlertType.ERROR, rs.getMsg());
+            alert.showAndWait();
+        }
 
         atualizar();
         alert.showAndWait();

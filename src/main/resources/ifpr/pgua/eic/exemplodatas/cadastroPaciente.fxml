@@ -70,7 +70,7 @@
                               <DatePicker fx:id="date" layoutX="20.0" layoutY="143.0" prefHeight="26.0" prefWidth="173.0" promptText="DATA NASCIMENTO" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="192.20000000000005" />
                               <ComboBox fx:id="cbGenero" layoutX="19.0" layoutY="176.0" prefWidth="150.0" promptText="GENERO" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="225.80000000000004" />
                               <Button layoutX="284.0" layoutY="176.0" mnemonicParsing="false" onAction="#cadastrar" text="CADASTRAR" />
-                              <Button layoutX="309.0" layoutY="222.0" mnemonicParsing="false" text="LIMPAR" />
+                              <Button layoutX="309.0" layoutY="222.0" mnemonicParsing="false" onAction="#limpar" text="LIMPAR" />
                            </children>
                         </AnchorPane>
                   </content>
