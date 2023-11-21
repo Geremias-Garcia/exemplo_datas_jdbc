@@ -30,6 +30,8 @@ public class JDBCMedicoDAO implements MedicoDAO {
 
     private static final String BUSCARCPF = "SELECT * FROM medico WHERE cpf = (?)";
 
+    private static final String ALTERARDADOS = "UPDATE medico SET nome=?, cpf=?, telefone=?, email=?, dataNascimento=?, genero=?, isAtive=?, salario=?, especialidade=?, crm=? WHERE id = ?";
+
 
 
 
@@ -296,9 +298,37 @@ public class JDBCMedicoDAO implements MedicoDAO {
 
     
     @Override
-    public Resultado alterar(Medico medico) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'alterar'");
+    public Resultado alterarDados(Medico medico) {
+        try (Connection con = fabrica.getConnection()) {
+            PreparedStatement pstm = con.prepareStatement(ALTERARDADOS, Statement.RETURN_GENERATED_KEYS);
+
+            java.sql.Date sqlDate = java.sql.Date.valueOf(medico.getDataNascimento());
+            
+            pstm.setString(1, medico.getNome());
+            pstm.setString(2, medico.getCpf());
+            pstm.setString(3, medico.getTelefone());
+            pstm.setString(4, medico.getEmail());
+            pstm.setDate(5, sqlDate);
+            pstm.setString(6, medico.getGenero());
+            pstm.setBoolean(7, medico.isAtive());
+            pstm.setDouble(8, medico.getSalario());
+            pstm.setString(9, medico.getEspecialidade());
+            pstm.setString(10, medico.getCrm());
+            pstm.setInt(11, medico.getId());
+            
+            // nome=?, cpf=?, telefone=?, email=?, dataNascimento=?, genero=?, isAtive=?, salario=?, especialidade=?, crm=?;
+
+            int ret = pstm.executeUpdate();
+
+            if(ret == 1){
+                return Resultado.sucesso("Cadastro alterado", medico);
+            }
+            return Resultado.erro("Erro desconhecido!");
+
+
+        } catch (SQLException e) {
+            return Resultado.erro(e.getMessage());
+        }
     }
 
 }

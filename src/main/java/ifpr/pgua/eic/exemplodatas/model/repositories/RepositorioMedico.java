@@ -6,6 +6,7 @@ import com.github.hugoperlin.results.Resultado;
 
 import ifpr.pgua.eic.exemplodatas.model.daos.MedicoDAO;
 import ifpr.pgua.eic.exemplodatas.model.entities.Medico;
+import ifpr.pgua.eic.exemplodatas.model.entities.Paciente;
 
 public class RepositorioMedico {
 
@@ -42,6 +43,10 @@ public class RepositorioMedico {
 
     public Resultado<ArrayList<Medico>> filtrarEspecialidadeENome(String especialidade, String inicio) {
         return dao.filtrarEspecialidadeENome(especialidade, inicio);
+    }
+
+    public Resultado alterarDados(Medico medico){
+        return dao.alterarDados(medico);
     }
 
 }

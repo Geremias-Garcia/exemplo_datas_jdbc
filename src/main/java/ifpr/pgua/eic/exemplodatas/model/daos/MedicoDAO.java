@@ -23,6 +23,6 @@ public interface MedicoDAO {
 
     Resultado<ArrayList<Medico>> filtrarEspecialidadeENome(String especialidade, String inicio);
 
-    Resultado alterar(Medico medico);
+    Resultado alterarDados(Medico medico);
 
 }

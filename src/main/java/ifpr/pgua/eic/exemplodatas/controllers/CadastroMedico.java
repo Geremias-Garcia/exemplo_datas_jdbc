@@ -22,6 +22,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Accordion;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Alert.AlertType;
@@ -81,8 +82,12 @@ public class CadastroMedico implements Initializable {
     @FXML
     private TextArea detalhes;
 
+    @FXML
+    private Button edit;
+
     private RepositorioMedico repositorioMedico;
     private RepositorioLogin repositorioLogin;
+    private Medico medico;
 
     public CadastroMedico(RepositorioMedico repositorioMedico, RepositorioLogin repositorioLogin){
         this.repositorioMedico = repositorioMedico;
@@ -145,6 +150,7 @@ public class CadastroMedico implements Initializable {
 
         listar();
         criarMedicos();
+        edit.setDisable(true);
     }
 
     @FXML
@@ -188,7 +194,7 @@ public class CadastroMedico implements Initializable {
 
     @FXML
     private void mostrarDetalhes(MouseEvent evento){
-        Medico medico = lstMedico.getSelectionModel().getSelectedItem();
+        medico = lstMedico.getSelectionModel().getSelectedItem();
        
         if(medico != null){
             detalhes.clear();
@@ -206,6 +212,7 @@ public class CadastroMedico implements Initializable {
             else{
                 detalhes.appendText("Situação do cadastro: Inativo");
             }
+            edit.setDisable(false);
         }
     }
 
@@ -276,5 +283,10 @@ public class CadastroMedico implements Initializable {
         Random random = new Random();
         LocalDate dataNascimento = LocalDate.of(1990 + random.nextInt(30), random.nextInt(12) + 1, random.nextInt(28) + 1);
         return dataNascimento;
+    }
+
+    @FXML
+    private void editarInformacoes(ActionEvent event){
+        App.pushScreen("EDITARINFORMACOESMEDICO",o-> new EditarInformacoesMedico(repositorioMedico, medico, repositorioLogin));
     }
 }

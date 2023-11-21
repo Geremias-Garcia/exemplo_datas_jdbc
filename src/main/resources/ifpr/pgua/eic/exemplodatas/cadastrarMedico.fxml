@@ -36,6 +36,7 @@
                   <TextArea fx:id="detalhes" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="190.0" prefWidth="185.0" />
                </children>
             </HBox>
+            <Button fx:id="edit" mnemonicParsing="false" onAction="#editarInformacoes" text="Editar informações" />
             <Button mnemonicParsing="false" onAction="#voltar" text="Voltar" />
          </children>
       </VBox>

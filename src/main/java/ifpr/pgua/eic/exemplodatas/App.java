@@ -7,6 +7,7 @@ import ifpr.pgua.eic.exemplodatas.controllers.CadastroMedico;
 import ifpr.pgua.eic.exemplodatas.controllers.CadastroPaciente;
 import ifpr.pgua.eic.exemplodatas.controllers.ClinicaOpcoes;
 import ifpr.pgua.eic.exemplodatas.controllers.DadosPessoaisPaciente;
+import ifpr.pgua.eic.exemplodatas.controllers.EditarInformacoesMedico;
 import ifpr.pgua.eic.exemplodatas.controllers.FichaAtendimento;
 import ifpr.pgua.eic.exemplodatas.controllers.PacienteAgendamentoConsulta;
 import ifpr.pgua.eic.exemplodatas.controllers.PacienteCriandoCadastro;
@@ -125,6 +126,8 @@ public class App extends BaseAppNavigator {
         registraTela("PACIENTECRIANDOCADASTRO", new ScreenRegistryFXML(App.class, "pacienteCriandoCadastro.fxml", o->new PacienteCriandoCadastro(repositorioPaciente, repositorioLogin)));
     
         registraTela("FICHAATENDIMENTO", new ScreenRegistryFXML(App.class, "fichaAtendimento.fxml", o->new FichaAtendimento(agendamento, repositorioAgendamento, repositorioAtendimento)));
+
+        registraTela("EDITARINFORMACOESMEDICO", new ScreenRegistryFXML(App.class, "editarInformacoesMedico.fxml", o->new EditarInformacoesMedico(repositorioMedico, medico, repositorioLogin)));
         
     }
 }
