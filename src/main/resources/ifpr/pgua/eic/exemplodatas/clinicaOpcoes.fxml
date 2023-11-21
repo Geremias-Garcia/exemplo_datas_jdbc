@@ -19,7 +19,7 @@
                   <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#cadastrarPacientes" text="Cadastrar Paciente" />
                   <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#cadastrarFuncionario" text="Cadastrar Funcionário" />
                   <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#cadastrarMedico" text="Cadastrar Médico" />
-                  <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Cadastrar Enfermeiro" />
+                  <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#cadastrarEnfermeiro" text="Cadastrar Enfermeiro" />
                </children>
             </VBox>
             <VBox prefHeight="162.0" prefWidth="42.0" />

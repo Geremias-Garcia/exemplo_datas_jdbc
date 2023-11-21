@@ -41,7 +41,12 @@ public class ClinicaOpcoes implements Initializable{
 
     @FXML
     private void cadastrarFuncionario(){
-        App.pushScreen("CADASTRARFUNCIONARIO");
+        System.out.println("Tela igual as outras de listagem e cadastro");
+    }
+
+    @FXML
+    private void cadastrarEnfermeiro(){
+        System.out.println("Tela igual as outras de listagem e cadastro");
     }
 
     @FXML
