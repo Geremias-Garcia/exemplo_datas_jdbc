@@ -5,6 +5,8 @@ import com.github.hugoperlin.results.Resultado;
 import ifpr.pgua.eic.exemplodatas.App;
 import ifpr.pgua.eic.exemplodatas.model.entities.Paciente;
 import ifpr.pgua.eic.exemplodatas.model.repositories.RepositorioAgendamento;
+import ifpr.pgua.eic.exemplodatas.model.repositories.RepositorioAtendimento;
+import ifpr.pgua.eic.exemplodatas.model.repositories.RepositorioDisponibilidadeMedico;
 import ifpr.pgua.eic.exemplodatas.model.repositories.RepositorioLogin;
 import ifpr.pgua.eic.exemplodatas.model.repositories.RepositorioMedico;
 import ifpr.pgua.eic.exemplodatas.model.repositories.RepositorioPaciente;
@@ -26,12 +28,16 @@ public class TelaLoginPaciente {
     private RepositorioPaciente repositorioPaciente;
     private RepositorioMedico repositorioMedico;
     private RepositorioAgendamento repositorioAgendamento;
+    private RepositorioDisponibilidadeMedico repositorioDisponibilidadeMedico;
+    private RepositorioAtendimento repositorioAtendimento;
 
-    public TelaLoginPaciente(RepositorioMedico repositorioMedico,RepositorioLogin repositorioLogin, RepositorioPaciente repositorioPaciente, RepositorioAgendamento repositorioAgendamento){
+    public TelaLoginPaciente(RepositorioMedico repositorioMedico,RepositorioLogin repositorioLogin, RepositorioPaciente repositorioPaciente, RepositorioAgendamento repositorioAgendamento, RepositorioDisponibilidadeMedico repositorioDisponibilidadeMedico, RepositorioAtendimento repositorioAtendimento){
         this.repositorioMedico = repositorioMedico;
         this.repositorioLogin = repositorioLogin;
         this.repositorioPaciente = repositorioPaciente;
         this.repositorioAgendamento = repositorioAgendamento;
+        this.repositorioDisponibilidadeMedico = repositorioDisponibilidadeMedico;
+        this.repositorioAtendimento = repositorioAtendimento;
     }
 
     @FXML
@@ -52,7 +58,7 @@ public class TelaLoginPaciente {
             Resultado<Paciente> rs = repositorioPaciente.buscarPorCpf(cpf);
             Paciente paciente = rs.comoSucesso().getObj();
 
-            App.pushScreen("TELAINICIALPACIENTE",o-> new TelaInicialPaciente(repositorioPaciente, repositorioLogin ,repositorioMedico, paciente, repositorioAgendamento));
+            App.pushScreen("TELAINICIALPACIENTE",o-> new TelaInicialPaciente(repositorioPaciente, repositorioLogin ,repositorioMedico, paciente, repositorioAgendamento, repositorioDisponibilidadeMedico, repositorioAtendimento));
         }
 
         alert.showAndWait();

@@ -13,6 +13,7 @@ import com.github.hugoperlin.results.Resultado;
 
 import ifpr.pgua.eic.exemplodatas.App;
 import ifpr.pgua.eic.exemplodatas.model.entities.Agendamento;
+import ifpr.pgua.eic.exemplodatas.model.entities.DisponibilidadeMedico;
 import ifpr.pgua.eic.exemplodatas.model.entities.Medico;
 import ifpr.pgua.eic.exemplodatas.model.entities.Paciente;
 import ifpr.pgua.eic.exemplodatas.model.repositories.RepositorioAgendamento;
@@ -56,10 +57,11 @@ public class PacienteAgendamentoConsulta implements Initializable{
     private Paciente paciente;
     private Medico medico;
 
-    public PacienteAgendamentoConsulta(RepositorioMedico repositorioMedico, Paciente paciente, RepositorioAgendamento repositorioAgendamento){
+    public PacienteAgendamentoConsulta(RepositorioMedico repositorioMedico, Paciente paciente, RepositorioAgendamento repositorioAgendamento, RepositorioDisponibilidadeMedico repositorioDisponibilidadeMedico){
         this.repositorioMedico = repositorioMedico;
         this.paciente = paciente;
         this.repositorioAgendamento = repositorioAgendamento;
+        this.repositorioDisponibilidadeMedico = repositorioDisponibilidadeMedico;
     }
 
     @Override
@@ -186,6 +188,18 @@ public class PacienteAgendamentoConsulta implements Initializable{
         if (medico != null && date.getValue() != null) {
             Resultado<ArrayList<String>> resultado = repositorioAgendamento.verificarDisponibilidadeHorario(medico.getId(), date.getValue());
     
+            Resultado<ArrayList<DisponibilidadeMedico>> rs = repositorioDisponibilidadeMedico.verificarDiasAtendimento(medico.getId());
+
+            if(rs.foiSucesso()){
+                List<DisponibilidadeMedico> disp = (List)rs.comoSucesso().getObj();
+                for(DisponibilidadeMedico disponibilidadeMedico: disp){
+                    if (date.getValue().getDayOfWeek().toString().equals(disponibilidadeMedico.getDiaDaSemana())) {
+                        System.out.println(disponibilidadeMedico);    
+                    }
+                }
+            }
+
+            
             if (resultado.foiSucesso()) {
                 List<String> horariosIndisponiveis = resultado.comoSucesso().getObj();
                 System.out.println(horariosIndisponiveis);

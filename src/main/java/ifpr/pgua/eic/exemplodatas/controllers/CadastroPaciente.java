@@ -116,9 +116,9 @@ public class CadastroPaciente implements Initializable{
             Collections.sort(lista, Comparator.comparing(Paciente::getNome));
             lstPacientes.getItems().addAll(lista);
 
-            for (Paciente paciente : lista) {
+            /*for (Paciente paciente : lista) {
                 criarLoginParaPaciente(paciente.getCpf());
-            }
+            }*/
         }
     }
 
@@ -126,7 +126,7 @@ public class CadastroPaciente implements Initializable{
     private void criarLoginParaPaciente(String cpf) {
         String senhaPadrao = "ok";
     
-        Resultado rs = repositorioLogin.criarLogin(cpf, senhaPadrao);
+        Resultado rs = repositorioLogin.criarLoginPaciente(cpf, senhaPadrao);
     
         if (rs.foiErro()) {
             Alert alert = new Alert(AlertType.ERROR, rs.getMsg());
@@ -188,7 +188,7 @@ public class CadastroPaciente implements Initializable{
         Paciente paciente = new Paciente(nome, cpf, telefone, email, data, genero, true);
 
         Resultado resultado = repositorioPaciente.criar(paciente);
-        Resultado rs = repositorioLogin.criarLogin(cpf, "ok");
+        Resultado rs = repositorioLogin.criarLoginPaciente(cpf, "ok");
 
         Alert alert;
         

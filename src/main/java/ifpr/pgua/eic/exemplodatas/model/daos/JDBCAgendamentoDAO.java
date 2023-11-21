@@ -19,6 +19,8 @@ public class JDBCAgendamentoDAO implements AgendamentoDAO{
     private static final String INSERTSQL = "INSERT INTO agendamento (id_paciente, id_medico, data, hora, status)\r\n" + //
             "VALUES (?, ?, ?, ?, ?);";
     private static final String BUSCARIDPACIENTE = "SELECT * FROM agendamento WHERE id_paciente = ?";
+    private static final String BUSCARIDMEDICO = "SELECT * FROM agendamento WHERE id_medico = ?";
+    private static final String BUSCARCONSULTACONFIRMADA = "SELECT * FROM agendamento WHERE id_medico = ? AND status = ?";
     private static final String BUSCARHORARIOSDISPONIVEIS = "SELECT hora FROM agendamento WHERE id_medico = ? AND data = ?";
     private static final String TOTALCONSULTASAGUARDANDO = "SELECT COUNT(*) AS count FROM agendamento WHERE status = 'Aguardando'";
     private static final String CONSULTASAGUARDANDO = "SELECT * FROM agendamento WHERE status = 'Aguardando'";
@@ -78,6 +80,66 @@ public class JDBCAgendamentoDAO implements AgendamentoDAO{
                 String status = rs.getString("status");
 
                 Agendamento agendamento = new Agendamento(idAgendamento, id, idMedico, data, hora, status);
+                lista.add(agendamento);
+            }
+
+            return Resultado.sucesso("Consultas", lista);
+
+        } catch (SQLException e) {
+            return Resultado.erro(e.getMessage());
+        }
+    }
+
+    @Override
+    public Resultado<ArrayList<Agendamento>> buscarIdMedico(int id) {
+        try (Connection con = fabrica.getConnection()) {
+            PreparedStatement pstm = con.prepareStatement(BUSCARIDMEDICO);
+
+            pstm.setInt(1, id);
+            System.out.println(id);
+
+            ResultSet rs = pstm.executeQuery();
+
+            ArrayList<Agendamento> lista = new ArrayList<>();
+            while(rs.next()){
+                int idAgendamento = rs.getInt("id");
+                int idPaciente = rs.getInt("id_paciente");
+                java.sql.Date sqlDate = rs.getDate("data");
+                LocalDate data = sqlDate.toLocalDate();
+                String hora = rs.getString("hora");
+                String status = rs.getString("status");
+
+                Agendamento agendamento = new Agendamento(idAgendamento, idPaciente, id, data, hora, status);
+                lista.add(agendamento);
+            }
+
+            return Resultado.sucesso("Consultas", lista);
+
+        } catch (SQLException e) {
+            return Resultado.erro(e.getMessage());
+        }
+    }
+
+    @Override
+    public Resultado<ArrayList<Agendamento>> buscarConsultaConfirmada(int id) {
+        try (Connection con = fabrica.getConnection()) {
+            PreparedStatement pstm = con.prepareStatement(BUSCARCONSULTACONFIRMADA);
+
+            pstm.setInt(1, id);
+            pstm.setString(2, "Confirmada");
+
+            ResultSet rs = pstm.executeQuery();
+
+            ArrayList<Agendamento> lista = new ArrayList<>();
+            while(rs.next()){
+                int idAgendamento = rs.getInt("id");
+                int idPaciente = rs.getInt("id_paciente");
+                java.sql.Date sqlDate = rs.getDate("data");
+                LocalDate data = sqlDate.toLocalDate();
+                String hora = rs.getString("hora");
+                String status = rs.getString("status");
+
+                Agendamento agendamento = new Agendamento(idAgendamento, idPaciente, id, data, hora, status);
                 lista.add(agendamento);
             }
 
@@ -178,7 +240,5 @@ public class JDBCAgendamentoDAO implements AgendamentoDAO{
         } catch (SQLException e) {
             return Resultado.erro("Erro ao atualizar o status do agendamento: " + e.getMessage());
         }
-    }
-
-        
+    }   
 }

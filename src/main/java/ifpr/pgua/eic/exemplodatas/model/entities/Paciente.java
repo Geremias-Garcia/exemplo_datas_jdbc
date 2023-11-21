@@ -14,4 +14,11 @@ public class Paciente extends Pessoa{
         super(nome, cpf, telefone, email, dataNascimento, genero, isAtive);
     }
 
+    @Override
+    public String toString() {
+        return "Pessoa [nome=" + super.getNome() + ", cpf=" + super.getCpf() + ", telefone=" + super.getTelefone() + 
+        ", email=" + super.getEmail() + ", dataNascimento=" + super.getDataNascimento() +
+         ", genero=" + super.getGenero() + ", isAtive=" + super.isAtive() + "]";
+    }
+
 }

@@ -125,9 +125,10 @@ public class AtualizarHorariosDeAtendimento implements Initializable {
     @FXML
     private void registrarIndisponibilidade(ActionEvent event){
         List<Medico> selecionados = lstMedico.getSelectionModel().getSelectedItems();
-        String dia = cbDia.getValue();
+        String dia = diaDaSemana(cbDia.getValue());
         String periodo = cbPeriodo.getValue();
 
+        System.out.println(dia);
         Resultado resultado = null;
         DisponibilidadeMedico horariosIndisponiveis = null;
         for(Medico medico: selecionados){
@@ -139,6 +140,27 @@ public class AtualizarHorariosDeAtendimento implements Initializable {
         
         alert.showAndWait();
 
+    }
+
+    private String diaDaSemana(String dia){
+        switch (dia) {
+            case "Segunda-feira":
+                return "MONDAY";
+            case "Terça-feira":
+                return "TUESDAY";
+            case "Quarta-feira":
+                return "WEDNESDAY";
+            case "Quinta-feira":
+                return "THURSDAY";
+            case "Sexta-feira":
+                return "FRIDAY";
+            case "Sábado":
+                return "SATURDAY";
+            case "Domingo":
+                return "SUNDAY";
+            default:
+                return "";
+        }
     }
 
     @FXML

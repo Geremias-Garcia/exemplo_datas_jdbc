@@ -14,8 +14,12 @@ public class RepositorioLogin {
         this.dao = dao;
     }
 
-    public Resultado criarLogin(String cpf, String senha){
-        return dao.criarLogin(cpf, senha);
+    public Resultado criarLoginPaciente(String cpf, String senha){
+        return dao.criarLoginPaciente(cpf, senha);
+    }
+
+    public Resultado criarLoginMedico(String cpf, String senha){
+        return dao.criarLoginMedico(cpf, senha);
     }
 
     public Resultado validarLoginPaciente(String cpf, String senha){

@@ -13,6 +13,10 @@ public interface AgendamentoDAO {
 
     Resultado<ArrayList<Agendamento>> buscarIdPaciente(int id);
 
+    Resultado<ArrayList<Agendamento>> buscarIdMedico(int id);
+
+    Resultado<ArrayList<Agendamento>> buscarConsultaConfirmada(int id);
+
     Resultado<ArrayList<String>> verificarDisponibilidadeHorario(int medicoId, LocalDate data);
 
     Resultado verificarNumeroConsultasEmAguardo();

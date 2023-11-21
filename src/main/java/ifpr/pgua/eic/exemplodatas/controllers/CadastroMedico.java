@@ -14,6 +14,8 @@ import com.github.hugoperlin.results.Resultado;
 
 import ifpr.pgua.eic.exemplodatas.App;
 import ifpr.pgua.eic.exemplodatas.model.entities.Medico;
+import ifpr.pgua.eic.exemplodatas.model.entities.Paciente;
+import ifpr.pgua.eic.exemplodatas.model.repositories.RepositorioLogin;
 import ifpr.pgua.eic.exemplodatas.model.repositories.RepositorioMedico;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -80,9 +82,11 @@ public class CadastroMedico implements Initializable {
     private TextArea detalhes;
 
     private RepositorioMedico repositorioMedico;
+    private RepositorioLogin repositorioLogin;
 
-    public CadastroMedico(RepositorioMedico repositorioMedico){
+    public CadastroMedico(RepositorioMedico repositorioMedico, RepositorioLogin repositorioLogin){
         this.repositorioMedico = repositorioMedico;
+        this.repositorioLogin = repositorioLogin;
     }
 
     private void listar(){
@@ -110,11 +114,28 @@ public class CadastroMedico implements Initializable {
             Alert alert = new Alert(AlertType.ERROR, resultado.getMsg());
             alert.showAndWait();
         }else{
-            List lista = (List)resultado.comoSucesso().getObj();
+            List<Medico> lista = (List)resultado.comoSucesso().getObj();
             Collections.sort(lista, Comparator.comparing(Medico::getNome));
             lstMedico.getItems().addAll(lista);
+
+            /*for (Medico medico : lista) {
+                criarLoginParaMedico(medico.getCpf());
+            }*/
         }
          
+    }
+
+    private void criarLoginParaMedico(String cpf) {
+        String senhaPadrao = "ok";
+    
+        Resultado rs = repositorioLogin.criarLoginMedico(cpf, senhaPadrao);
+    
+        if (rs.foiErro()) {
+            Alert alert = new Alert(AlertType.ERROR, rs.getMsg());
+            alert.showAndWait();
+        } else {
+            System.out.println("Login criado para o CPF: " + cpf);
+        }
     }
 
     @Override
@@ -168,7 +189,6 @@ public class CadastroMedico implements Initializable {
     @FXML
     private void mostrarDetalhes(MouseEvent evento){
         Medico medico = lstMedico.getSelectionModel().getSelectedItem();
-        System.out.println(medico.getId());
        
         if(medico != null){
             detalhes.clear();

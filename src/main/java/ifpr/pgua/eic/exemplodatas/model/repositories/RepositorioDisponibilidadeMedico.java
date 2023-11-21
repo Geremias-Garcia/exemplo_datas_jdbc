@@ -9,14 +9,18 @@ import ifpr.pgua.eic.exemplodatas.model.entities.DisponibilidadeMedico;
 
 public class RepositorioDisponibilidadeMedico {
 
-    private DisponibilidadeMedicoDAO DAO;
+    private DisponibilidadeMedicoDAO dao;
 
     public RepositorioDisponibilidadeMedico(DisponibilidadeMedicoDAO horariosIndisponiveisDAO) {
-        this.DAO = horariosIndisponiveisDAO;
+        this.dao = horariosIndisponiveisDAO;
     }
  
     public Resultado<DisponibilidadeMedico> registrarHorarios(DisponibilidadeMedico horariosIndisponiveis){
-        return DAO.registrarHorarios(horariosIndisponiveis);
-    } 
+        return dao.registrarHorarios(horariosIndisponiveis);
+    }
+    
+    public Resultado<ArrayList<DisponibilidadeMedico>> verificarDiasAtendimento(int id){
+        return dao.verificarDiasAtendimento(id);
+    }
 
 }

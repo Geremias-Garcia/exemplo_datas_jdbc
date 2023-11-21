@@ -6,6 +6,7 @@
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
@@ -37,7 +38,7 @@
                   <Font name="System Bold" size="14.0" />
                </font>
             </Label>
-            <TableView fx:id="tbConsultas" prefHeight="266.0" prefWidth="300.0">
+            <TableView fx:id="tbConsultas" onMouseClicked="#selecionaAtendimento" prefHeight="266.0" prefWidth="300.0">
               <columns>
                 <TableColumn fx:id="tcData" prefWidth="93.5999755859375" text="Data" />
                 <TableColumn fx:id="tcHora" prefWidth="85.5999755859375" text="Hora" />
@@ -46,5 +47,10 @@
             </TableView>
          </children>
       </VBox>
+      <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
+         <children>
+            <Button fx:id="btAtendimento" mnemonicParsing="false" onAction="#atendimento" text="Iniciar atendimento" />
+         </children>
+      </HBox>
    </children>
 </GridPane>

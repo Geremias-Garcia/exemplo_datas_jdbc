@@ -61,6 +61,17 @@ CREATE TABLE agendamento (
     FOREIGN KEY (id_medico) REFERENCES medico(id)
 );
 
+CREATE TABLE atendimento (
+    id INTEGER PRIMARY KEY,
+    id_paciente INTEGER,
+    id_medico INTEGER,
+    data DATE,
+    hora TIME,
+    descricao TEXT,
+    FOREIGN KEY (id_paciente) REFERENCES pessoa(id),
+    FOREIGN KEY (id_medico) REFERENCES medico(id)
+);
+
 CREATE TABLE horarios_indisponiveis (
     id INTEGER PRIMARY KEY,
     id_medico INTEGER,
@@ -68,6 +79,8 @@ CREATE TABLE horarios_indisponiveis (
     periodo TEXT,
     FOREIGN KEY (id_medico) REFERENCES medico(id)
 );
+
+
 
 
 

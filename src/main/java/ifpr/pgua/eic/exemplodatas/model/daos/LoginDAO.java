@@ -4,7 +4,9 @@ import com.github.hugoperlin.results.Resultado;
 
 public interface LoginDAO {
 
-    Resultado criarLogin(String cpf,String senha);
+    Resultado criarLoginPaciente(String cpf,String senha);
+
+    Resultado criarLoginMedico(String cpf,String senha);
     
     Resultado validarLoginPaciente(String cpf,String senha);
 

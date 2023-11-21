@@ -71,7 +71,7 @@ public class PacienteCriandoCadastro implements Initializable{
         Paciente paciente = new Paciente(nome, cpf, telefone, email, data, genero, true);
 
         Resultado resultado = repositorioPaciente.criar(paciente);
-        Resultado rs = repositorioLogin.criarLogin(cpf, senha);
+        Resultado rs = repositorioLogin.criarLoginPaciente(cpf, senha);
 
         Alert alert;
         

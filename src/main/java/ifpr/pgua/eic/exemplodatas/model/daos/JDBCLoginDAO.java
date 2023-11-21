@@ -15,6 +15,7 @@ import ifpr.pgua.eic.exemplodatas.utils.DBUtils;
 
 public class JDBCLoginDAO implements LoginDAO{
     private static final String CRIARLOGIN = "INSERT INTO loginPaciente(cpf,senha)  VALUES (?,?)";
+    private static final String CRIARLOGINMEDICO = "INSERT INTO loginMedico(cpf,senha)  VALUES (?,?)";
     private static final String VALIDARPACIENTE = "SELECT * FROM loginPaciente WHERE cpf = (?)";
     private static final String VALIDARMEDICO = "SELECT * FROM loginMedico WHERE cpf = (?)";
     private static final String ALTERARSENHA = "UPDATE loginPaciente SET senha = ? WHERE cpf = ?";
@@ -27,9 +28,32 @@ public class JDBCLoginDAO implements LoginDAO{
     }
 
     @Override
-    public Resultado criarLogin(String cpf, String senha) {
+    public Resultado criarLoginPaciente(String cpf, String senha) {
         try (Connection con = fabrica.getConnection()) {
             PreparedStatement pstm = con.prepareStatement(CRIARLOGIN, Statement.RETURN_GENERATED_KEYS);
+            
+            pstm.setString(1, cpf);
+            pstm.setString(2, senha);
+
+            int ret = pstm.executeUpdate();
+
+            if(ret == 1){
+                int id = DBUtils.getLastId(pstm);
+
+                return Resultado.sucesso("Volte a tela anterior para realizar o login", id);
+            }
+            return Resultado.erro("Erro desconhecido!");
+
+
+        } catch (SQLException e) {
+            return Resultado.erro(e.getMessage());
+        }
+    }
+
+    @Override
+    public Resultado criarLoginMedico(String cpf, String senha) {
+        try (Connection con = fabrica.getConnection()) {
+            PreparedStatement pstm = con.prepareStatement(CRIARLOGINMEDICO, Statement.RETURN_GENERATED_KEYS);
             
             pstm.setString(1, cpf);
             pstm.setString(2, senha);
